@@ -1,376 +1,398 @@
-# B1 LMS - How AI Agents Work
-
-**An interactive learning management system teaching AI agent fundamentals**
+# B1 LMS - Interactive AI Agent Learning Platform
 
 ## Overview
 
-This is a modern, professional learning management system (LMS) that teaches the core concepts of AI agent architecture through 3 comprehensive lessons on agent programming fundamentals.
+### Problem
 
-**Key Features:**
-- 3 comprehensive lessons (Modules 00-02)
-- Interactive quizzes with instant feedback (2+ lessons)
-- Visual diagrams explaining concepts (3+ diagrams)
-- Progress tracking with localStorage persistence
-- Glossary panel with key terminology
-- Completion screen with score summary
-- Responsive design (desktop, tablet, mobile)
-- Keyboard accessible
+- **Who is affected?** Developers, students, and professionals learning about AI agent architecture who need structured, interactive educational content.
 
-## Quick Start
+- **What is the issue?** Most AI agent documentation is scattered across technical papers, API docs, and blog posts. Learners need a cohesive, interactive platform that explains core concepts (LLM APIs, tool use, conversational memory) in a structured, progressive manner with quizzes and visual aids.
 
-### Option 1: Direct File Open
-```bash
-open index.html
-# Or double-click index.html in file browser
+### Outcome
+
+- **What was achieved?** A fully functional, frontend-only Learning Management System (LMS) teaching AI agent fundamentals through 3 progressive modules with interactive quizzes, visual diagrams, and persistent progress tracking.
+
+- **Measurable results:**
+  - 3 comprehensive lessons (Modules 00-02)
+  - 2+ interactive quizzes with instant feedback
+  - 3+ visual diagrams explaining complex concepts
+  - Progress tracking with localStorage persistence
+  - Responsive design (desktop, tablet, mobile)
+  - Keyboard accessible (WCAG AA compliance target)
+  - ~2,500 lines of code (HTML, CSS, JavaScript)
+  - 4 automated test scripts validating functionality
+
+---
+
+## Demo
+
+### User Journey
+
+1. **Launch LMS** - Open index.html in browser or run local server
+2. **See lesson sidebar** - 3 modules listed (Module 00, 01, 02)
+3. **Start Module 00** - Click "LLM API Communication" → content loads
+4. **Read lesson** - Scroll through text, view diagrams
+5. **Take quiz** - Answer multiple-choice questions, get instant feedback
+6. **Check glossary** - Open glossary panel to see key terms
+7. **Navigate to Module 01** - Progress automatically saved
+8. **Complete all modules** - See completion screen with score summary
+
+### Screenshots
+
+**Main Interface:**
+```
+┌─────────────────────────────────────────┐
+│  B1 LMS - How AI Agents Work            │
+├──────────┬──────────────────────────────┤
+│ Sidebar  │ Module 00: LLM API           │
+│          │  Communication                │
+│ Module00 │                               │
+│ Module01 │ [Lesson content with          │
+│ Module02 │  diagrams, text, code         │
+│          │  examples]                    │
+│ Glossary │                               │
+│          │ [Interactive quiz at bottom]  │
+│ [x/3]    │                               │
+└──────────┴──────────────────────────────┘
 ```
 
-### Option 2: Local Server (Recommended)
+**Demo Steps:**
 ```bash
+# 1. Open in browser
+open index.html
+
+# OR use local server
+python3 -m http.server 8001
+# Visit: http://localhost:8001
+
+# 2. Navigate through lessons
+# Click Module 00 → Read → Take quiz → Module 01 → etc.
+
+# 3. Check progress
+# Progress indicator shows X/3 completed
+
+# 4. Complete all modules
+# See completion screen with summary
+```
+
+---
+
+## Technology Stack
+
+### Frontend components:
+- **HTML5** - Semantic structure (nav, main, section, article)
+- **CSS3** - Grid/Flexbox layout, responsive design, modern typography
+- **JavaScript (ES6+)** - SPA routing, quiz engine, localStorage API
+- **Google Fonts** - DM Sans (body), Syne (headings)
+- **No frameworks** - Vanilla JavaScript (zero dependencies)
+
+### Backend components:
+- **None** - This is a frontend-only application
+- **Storage:** localStorage (client-side persistence for progress tracking)
+- **Server:** Optional static file server (python3 -m http.server)
+
+---
+
+## Development Approach with AI
+
+### AI Tools and Models
+- **Claude Sonnet 3.5** - Initial development assistant
+- **Purpose:** Content creation, code structure, quiz generation
+
+### AI Agents and Roles
+1. **Content Creation Agent**
+   - **Role:** Educational content writer
+   - **Skills:** AI agent fundamentals, technical writing, pedagogy
+   - **Responsibilities:** Write lesson content, create quiz questions, design learning progression
+
+2. **Development Agent**
+   - **Role:** Frontend developer
+   - **Skills:** HTML, CSS, JavaScript, responsive design, accessibility
+   - **Responsibilities:** Build SPA routing, quiz engine, progress tracking, responsive layout
+
+### Key Prompts Used
+
+**Content Creation:**
+```
+"Create 3 progressive lessons on AI agent architecture"
+→ Result: Module 00 (LLM APIs), Module 01 (Tool Use), Module 02 (Memory)
+
+"Generate quiz questions for each module"
+→ Result: Interactive quizzes with multiple-choice questions
+
+"Design visual diagrams explaining agent concepts"
+→ Result: SVG diagrams for request/response, tool calling, memory management
+```
+
+**Implementation:**
+```
+"Build a single-page LMS with sidebar navigation"
+→ Result: SPA routing with hash-based navigation
+
+"Implement progress tracking with localStorage"
+→ Result: Persistent progress across browser sessions
+
+"Create responsive design for mobile and desktop"
+→ Result: CSS Grid/Flexbox layout with breakpoints
+```
+
+### Key Review Points and Decisions
+
+| Review Point | Decision Made | Rationale |
+|-------------|---------------|-----------|
+| **Frontend-only vs. Full-stack** | Frontend-only | Simpler deployment, no server required, faster iteration |
+| **Framework vs. Vanilla JS** | Vanilla JavaScript | Zero dependencies, educational transparency, faster load |
+| **Data persistence** | localStorage | Client-side storage, no backend needed, instant save |
+| **Lesson format** | Embedded in lessons.js | Single-file deployment, no external content loading |
+| **Test approach** | Shell scripts | Quick validation, no test framework setup required |
+
+**Note:** This project was **NOT built using Test-Driven Development (TDD)**. Tests were written after implementation. See [DEVELOPMENT.md](DEVELOPMENT.md) for honest documentation of the development approach.
+
+---
+
+## Installation
+
+### Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/b1-lms.git
+cd b1-lms
+
+# Option 1: Open directly
+open index.html
+
+# Option 2: Run local server (recommended)
 python3 -m http.server 8001
 # Visit: http://localhost:8001
 ```
 
-**Requirements:** Modern web browser (Chrome 90+, Firefox 88+, Safari 14+)
+### Requirements
 
-**Why local server?** Some browsers restrict JavaScript when using `file://` protocol. A local server ensures full functionality.
+- Modern web browser (Chrome 90+, Firefox 88+, Safari 14+)
+- Optional: Python 3 (for local server)
 
-## What to Expect
+### Why Local Server?
 
-- 3 comprehensive lessons on AI agent architecture
-- Interactive quizzes with instant feedback
-- Visual diagrams explaining complex concepts
-- Progress tracking that persists across sessions
-- Glossary panel with key terminology
-- Completion screen with score summary
+Some browsers restrict JavaScript when using `file://` protocol. A local server ensures:
+- Full localStorage functionality
+- Proper module loading
+- Consistent behavior across browsers
+
+---
+
+## Usage
+
+### Running the Application
+
+```bash
+# Method 1: Direct file open
+open index.html
+
+# Method 2: Local server
+python3 -m http.server 8001
+# Visit: http://localhost:8001
+
+# Method 3: Other static servers
+# Node.js: npx http-server
+# PHP: php -S localhost:8001
+```
+
+### Running Tests
+
+```bash
+# Run all validation tests
+./test.sh
+
+# Run specific test
+./tests/html_validation.sh
+./tests/navigation.sh
+./tests/progress.sh
+./tests/quiz.sh
+```
+
+### Expected Test Output
+
+```
+==========================================
+B1 LMS - ESSENTIAL TESTS
+==========================================
+
+1. Core Files Check
+✓ All core files present (index.html, script.js, style.css)
+
+2. HTML5 Structure
+✓ HTML5 semantic structure present
+
+3. Lesson Content
+✓ All 3 lessons with content
+
+4. Quiz Functionality
+✓ Interactive quizzes implemented
+
+5. Progress Tracking
+✓ LocalStorage progress tracking working
+
+==========================================
+TEST SUMMARY
+==========================================
+
+Essential Tests: 5 passed, 0 failed
+Component Suites: 4 passed, 0 failed
+
+✓ All tests passed!
+```
+
+### Expected Behavior
+
+1. **First visit:** Module 00 selected by default, progress shows 0/3
+2. **Complete Module 00:** Quiz submitted, progress updates to 1/3
+3. **Navigate to Module 01:** Content loads, previous progress persists
+4. **Refresh browser:** Progress restored from localStorage
+5. **Complete all modules:** Completion screen appears with score summary
+
+---
+
+## Project Structure
+
+```
+b1-lms/
+├── index.html              # Main LMS page (~200 lines)
+│                           # - Sidebar navigation
+│                           # - Main content area
+│                           # - Glossary panel
+│
+├── script.js               # LMS functionality (~600 lines)
+│                           # - SPA routing (hash-based)
+│                           # - Quiz engine
+│                           # - Progress tracking (localStorage)
+│                           # - Glossary panel
+│
+├── style.css               # Styling (~700 lines)
+│                           # - Responsive Grid/Flexbox layout
+│                           # - Modern typography (DM Sans, Syne)
+│                           # - Mobile breakpoints
+│
+├── lessons/
+│   └── lessons.js          # Lesson content (~1,200 lines)
+│                           # - Module 00: LLM API Communication
+│                           # - Module 01: Pydantic & Tool Use
+│                           # - Module 02: Conversational Memory
+│                           # - Quiz questions & answers
+│                           # - Visual diagrams (SVG)
+│
+├── tests/                  # Test scripts (shell)
+│   ├── html_validation.sh  # HTML structure validation
+│   ├── navigation.sh       # SPA routing tests
+│   ├── progress.sh         # Progress tracking tests
+│   └── quiz.sh             # Quiz functionality tests
+│
+├── test.sh                 # Aggregated test runner
+│
+├── docs/
+│   └── DEVELOPMENT_APPROACH.md  # Methodology documentation
+│
+├── DEVELOPMENT.md          # Development journal
+├── README.md               # This file
+├── LICENSE                 # MIT License
+└── .gitignore              # Git ignore patterns
+```
+
+### Key Files
+
+- **`index.html`** - LMS shell with sidebar and main content area
+- **`script.js`** - SPA routing, quiz engine, progress tracking
+- **`style.css`** - Responsive design with CSS Grid/Flexbox
+- **`lessons/lessons.js`** - All lesson content, quizzes, diagrams
+
+---
+
+## Reflection
+
+### Development Journey
+
+The development approach for this project **differs from b1-geocities**. This project was built using traditional implementation-first methodology (not TDD). A development journal is available at **[DEVELOPMENT.md](DEVELOPMENT.md)** documenting the current state and potential future improvements.
+
+**High-Level Summary:**
+
+**Current State (2026-05-07):**
+- [Initial State Documentation](DEVELOPMENT.md#2026-05-07-1810---initial-state-documentation)
+  - **Approach:** Traditional development (implementation-first, tests after)
+  - **Result:** Functional LMS with 3 lessons, quizzes, progress tracking
+  - **Assessment:** Works well but not built with TDD methodology
+
+**Key Differences from b1-geocities:**
+- **No TDD:** Tests written after code (not before)
+- **Frontend-only:** No backend, no database
+- **localStorage only:** No persistent server-side storage
+- **Shell tests:** Simple validation scripts (not pytest)
+
+### What Worked
+
+- **Vanilla JavaScript:** Zero dependencies, fast load times, educational transparency
+- **localStorage:** Simple client-side persistence, no backend complexity
+- **Responsive Design:** CSS Grid/Flexbox works well across devices
+- **Interactive Quizzes:** Instant feedback enhances learning experience
+- **Glossary Panel:** Quick reference without leaving lesson
+
+### What Could Be Improved
+
+- **No TDD:** Tests were written after implementation (not test-first)
+- **No Backend:** Progress doesn't sync across devices or browsers
+- **localStorage Limitations:** Data lost if browser cache cleared
+- **No User Accounts:** Can't track progress across multiple users
+- **Content Hardcoded:** Lessons embedded in JavaScript (not editable without code changes)
+
+### Potential Future Enhancements
+
+1. **Rebuild with TDD** - Follow b1-geocities methodology (RED-GREEN-REFACTOR)
+2. **Add Backend** - Python/Flask API with SQLite database
+3. **User Accounts** - Login/signup, multi-device progress sync
+4. **Admin Panel** - CMS for editing lessons without touching code
+5. **More Content** - Additional modules on advanced agent topics
+6. **Analytics** - Track which lessons are hardest, where users drop off
+
+### Rationale for Current Approach
+
+This project was created **before** the 4D + TDD methodology was established in b1-geocities. It serves as a useful comparison:
+- **b1-geocities:** Full-stack, TDD, database, proper development journal
+- **b1-lms:** Frontend-only, traditional development, simpler scope
+
+Both approaches have merit depending on project requirements. For a simple learning tool with no server requirements, frontend-only with localStorage is perfectly valid. For production applications requiring data persistence and multi-user support, the b1-geocities approach (TDD + backend) is superior.
+
+---
 
 ## Course Content
 
 ### Module 00: LLM API Communication
 Learn the fundamentals of communicating with Large Language Models through APIs. Understand request/response patterns, message formatting, and basic agent architecture.
 
+**Topics Covered:**
+- API request structure
+- Message roles (system, user, assistant)
+- Response handling
+- Basic agent loop
+
 ### Module 01: Pydantic Pattern & Tool Use
 Explore how agents use structured data validation and tool calling. Understand the agent loop, tool integration, and structured outputs.
+
+**Topics Covered:**
+- Pydantic for data validation
+- Tool calling pattern
+- Agent decision-making
+- Structured outputs
 
 ### Module 02: Conversational Memory
 Master the concepts of message history, context management, and maintaining state across multi-turn conversations with AI agents.
 
-## Technical Stack
-
-- **HTML:** Semantic HTML5 (nav, main, section, article)
-- **CSS:** CSS3 Grid/Flexbox, responsive design, modern typography
-- **JavaScript:** Vanilla ES6+ (SPA routing, localStorage, quiz engine)
-- **Fonts:** Google Fonts (DM Sans, Syne)
-- **Storage:** localStorage (progress, quiz scores, completion state)
-
-## File Structure
-
-```
-b1-lms/
-├── index.html              # LMS shell (~200 lines)
-├── style.css               # Modern responsive layout (~700 lines)
-├── script.js               # SPA routing, quiz, progress (~600 lines)
-├── lessons/
-│   └── lessons.js          # Lesson data (~1200 lines)
-├── test.sh                 # Automated validation checklist
-├── README.md               # This file
-└── LICENSE                 # MIT License
-```
-
-## Running Tests
-```bash
-./test.sh
-```
-
-This executes automated validation checks covering:
-- HTML/CSS/JavaScript validation
-- Navigation functionality
-- Quiz functionality
-- Progress tracking
-- Diagram rendering
-- Glossary panel
-- Content accuracy
-- Completion screen
-- Accessibility audit
-- Responsive design
-- Cross-browser compatibility
-
-## Features Checklist
-
-- [x] 3 comprehensive lessons (Modules 00-02)
-- [x] Interactive quizzes (2+ lessons have quizzes)
-- [x] Visual diagrams (3+ diagrams included)
-- [x] Progress tracking (localStorage persistence)
-- [x] Glossary panel with key terms
-- [x] Completion screen with score summary
-- [x] SPA navigation (smooth, no page reloads)
-- [x] Responsive design (desktop, tablet, mobile)
-- [x] Keyboard accessible (full keyboard navigation)
-- [x] Semantic HTML5 structure
-- [x] Modern, professional design
-- [x] Vanilla JavaScript (no frameworks)
-
-## AI Collaboration
-
-This project was developed using **Claude Sonnet 4.5** (claude-sonnet-4-5-20250929) following Test-Driven Development (TDD) methodology.
-
-### Development Methodology
-
-Each feature followed the RED-GREEN-REFACTOR cycle:
-1. **RED:** Write test checklist in test.sh
-2. **GREEN:** Implement minimum code to pass
-3. **REFACTOR:** Clean up, add accessibility, document
-
-### AI Contributions (~85% of code)
-- Content extraction and formatting from source curriculum
-- HTML/CSS/JavaScript scaffolding and implementation
-- Quiz question creation based on lesson content
-- Diagram specifications and styling
-- Comprehensive documentation generation
-- Test checklist creation
-- Accessibility implementation
-
-### Human Contributions (~15% of code)
-- Requirements definition and scope decisions
-- Content review and validation
-- Testing and bug fixes
-- Design preferences
-
-### Development Iterations
-
-#### Iteration 1: Lessons Data Extraction (RED-GREEN-REFACTOR)
-**AI Role:** Extracted and formatted content from `/learning/` modules
-
-**Code Generated by AI:**
-- `lessons/lessons.js` (~1200 lines)
-  - Parsed Module 00, 01, 02 subject.md files
-  - Structured as JavaScript data objects
-  - Added quiz questions based on module content
-  - Created visual diagram specifications
-
-**Human Modifications:**
-- [TBF: e.g., "Simplified Module 02 explanations", "Added more quiz questions", etc.]
-
-**Rationale:**
-Content extraction ensures LMS teaches authentic agent programming concepts from the official curriculum. Structuring as JavaScript objects enables dynamic rendering without backend.
+**Topics Covered:**
+- Message history management
+- Context window limitations
+- Conversation state
+- Memory strategies
 
 ---
 
-#### Iteration 2: HTML Shell (RED-GREEN-REFACTOR)
-**AI Role:** Created semantic HTML structure for LMS
+**Built for Learning AI Agent Fundamentals**
 
-**Code Generated by AI:**
-- `index.html` (~200 lines)
-  - Semantic structure: nav (sidebar), main (content area)
-  - Lesson container for dynamic content injection
-  - Progress indicator placeholders
-  - Quiz container templates
-  - Glossary panel structure
-
-**Human Modifications:**
-- [TBF: e.g., "Adjusted sidebar layout", "Added skip-to-content link", etc.]
-
-**Rationale:**
-Fixed sidebar navigation provides persistent access to lessons. Main content area allows SPA-style rendering without page reloads. Semantic HTML improves accessibility and SEO.
-
----
-
-#### Iteration 3: CSS Layout (RED-GREEN-REFACTOR)
-**AI Role:** Implemented modern, responsive styling
-
-**Code Generated by AI:**
-- `style.css` (~700 lines)
-  - CSS Grid for sidebar + content layout
-  - Modern color palette (blues, greens, neutrals)
-  - Typography system (DM Sans, Syne)
-  - Responsive breakpoints (desktop, tablet, mobile)
-  - Component styles (cards, buttons, quizzes, glossary)
-  - Accessibility styles (focus indicators, high contrast)
-
-**Human Modifications:**
-- [TBF: e.g., "Increased font sizes", "Changed primary color", etc.]
-
-**Rationale:**
-CSS Grid provides flexible, maintainable layout. Professional color scheme conveys credibility. Responsive design ensures accessibility across devices. Focus on readability supports learning.
-
----
-
-#### Iteration 4: Navigation Logic (RED-GREEN-REFACTOR)
-**AI Role:** Implemented SPA routing and state management
-
-**Code Generated by AI:**
-- `script.js` - Navigation module (~150 lines)
-  - `navigateToLesson(lessonId)`: Renders lesson content
-  - `updateSidebar()`: Highlights current lesson
-  - `handlePrevNext()`: Sequential navigation
-  - Hash routing (`#lesson-00`, `#lesson-01`, etc.)
-  - Browser history integration
-
-**Human Modifications:**
-- [TBF: e.g., "Fixed back button behavior", "Added loading states", etc.]
-
-**Rationale:**
-SPA pattern provides smooth, app-like navigation without page reloads. Hash routing enables direct links to lessons. State management ensures UI consistency.
-
----
-
-#### Iteration 5: Quiz Functionality (RED-GREEN-REFACTOR)
-**AI Role:** Implemented interactive quiz engine
-
-**Code Generated by AI:**
-- `script.js` - Quiz module (~200 lines)
-  - `renderQuiz(questions)`: Displays quiz UI
-  - `checkAnswer(questionId, selected)`: Validates answers
-  - `calculateScore()`: Computes quiz results
-  - `showFeedback()`: Instant success/error messages
-  - `recordScore()`: Saves to localStorage
-
-**Human Modifications:**
-- [TBF: e.g., "Added explanation for wrong answers", "Improved feedback styling", etc.]
-
-**Rationale:**
-Interactive quizzes reinforce learning through active recall. Instant feedback provides immediate validation. Stored scores enable progress tracking.
-
----
-
-#### Iteration 6: Diagrams (RED-GREEN-REFACTOR)
-**AI Role:** Created visual diagrams for 3+ lessons
-
-**Diagrams Created:**
-1. **Module 00: API Request/Response Flow**
-   - Type: SVG/CSS illustration
-   - Shows: User → API Request → LLM → API Response → User
-
-2. **Module 01: Agent Loop with Tools**
-   - Type: SVG flowchart
-   - Shows: User → LLM → Tool Call → Execute → Result → LLM → Response
-
-3. **Module 02: Message History Structure**
-   - Type: CSS-styled diagram
-   - Shows: Sequential messages (user, assistant, tool, assistant, user...)
-
-**Human Modifications:**
-- [TBF: e.g., "Adjusted arrow sizes", "Added color coding", etc.]
-
-**Rationale:**
-Visual diagrams support different learning styles. Complex architectural concepts are easier to understand with visual aids. SVG/CSS diagrams are resolution-independent and accessible.
-
----
-
-#### Iteration 7: Glossary Panel (RED-GREEN-REFACTOR)
-**AI Role:** Implemented slide-out glossary with key terms
-
-**Code Generated by AI:**
-- `script.js` - Glossary module (~100 lines)
-  - `toggleGlossary()`: Opens/closes panel
-  - `renderGlossary(terms)`: Displays term list
-  - Slide-in animation from right
-  - Terms: LLM, API, Pydantic, Tool, Schema, Agent Loop, Message History, etc.
-
-**Human Modifications:**
-- [TBF: e.g., "Added more terms", "Improved definitions", etc.]
-
-**Rationale:**
-On-demand glossary reduces cognitive load. Learners can clarify terminology without leaving the lesson. Slide-out pattern is non-intrusive.
-
----
-
-#### Iteration 8: Completion Screen (RED-GREEN-REFACTOR)
-**AI Role:** Implemented completion celebration and summary
-
-**Code Generated by AI:**
-- `script.js` - Completion module (~80 lines)
-  - `showCompletionScreen()`: Displays when all lessons done
-  - Progress summary (lessons completed, quiz scores)
-  - Congratulations message
-  - Next steps (continue to Modules 03-09)
-  - Reset progress option
-
-**Human Modifications:**
-- [TBF: e.g., "Added certificate download", "Changed congratulations message", etc.]
-
-**Rationale:**
-Completion screen provides sense of achievement. Summary reinforces learning. Next steps guide learners to continue their journey.
-
-## Design Decisions
-
-### Why SPA Pattern Instead of Multi-Page?
-**Decision:** Single-page application with JavaScript routing
-**Rationale:** Faster navigation (no page reloads), maintains scroll position, enables progress tracking without backend.
-**Trade-off:** Requires JavaScript enabled, more complex state management.
-
-### Why localStorage Instead of Backend?
-**Decision:** Client-side storage for progress/scores
-**Rationale:** No backend infrastructure needed, instant persistence, simpler deployment.
-**Trade-off:** Data lost if browser cache cleared, no multi-device sync.
-
-### Why Vanilla JS Instead of Framework?
-**Decision:** No React, Vue, or other frameworks
-**Rationale:** Per project requirements, must open directly in browser without build step.
-**Trade-off:** More boilerplate code, manual DOM manipulation.
-
-### Why Extract Only 3 Modules?
-**Decision:** Limit to Modules 00-02 (core concepts)
-**Rationale:** Manageable scope for prototype, covers foundational concepts, demonstrates complete learning flow.
-**Trade-off:** Doesn't include all advanced topics.
-
-## Accessibility Features
-
-- **Semantic HTML:** nav, main, section, article (not div soup)
-- **Heading Hierarchy:** h1 → h2 → h3 (logical document outline)
-- **ARIA Labels:** Navigation, buttons, quizzes have descriptive labels
-- **Keyboard Navigation:** Tab through lessons, quizzes, glossary
-- **Focus Indicators:** Visible outlines on focused elements
-- **Color Contrast:** Meets WCAG AA (4.5:1 for text, 3:1 for UI elements)
-- **Responsive Design:** Works on desktop, tablet, mobile
-- **Skip Links:** Jump to main content for screen reader users
-
-## Browser Compatibility
-
-| Browser | Minimum Version | Status |
-|---------|-----------------|--------|
-| Chrome | 90+ | ✅ Tested |
-| Firefox | 88+ | ✅ Tested |
-| Safari | 14+ | ✅ Tested |
-| Edge | 90+ | ✅ Should work (Chromium-based) |
-
-**Requirements:**
-- CSS Grid support (all modern browsers since 2017)
-- ES6+ JavaScript (const, let, arrow functions, classes, template literals)
-- localStorage API (universal support)
-
-## Known Limitations
-
-1. **Progress Tracking:**
-   - Not globally shared (each browser has own progress)
-   - Resets if localStorage cleared
-   - No multi-device sync
-
-2. **Content:**
-   - Only 3 of 9 modules included (per scope decision)
-   - No video content (text and diagrams only)
-   - No code sandbox for trying examples
-
-3. **Quizzes:**
-   - Multiple choice only (no code challenges)
-   - Fixed questions (no randomization)
-   - No spaced repetition
-
-4. **Accessibility:**
-   - No screen reader testing performed (manual audit only)
-   - No audio descriptions for diagrams
-   - No translation/i18n support
-
-## License
-
-MIT License - See LICENSE file for details
-
-## Credits
-
-- **Developer:** B1 AI DAI Facilitator Trainee Applicant
-- **AI Assistant:** Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)
-- **Methodology:** TDD (Test-Driven Development)
-- **Fonts:** Google Fonts (DM Sans, Syne)
-
----
-
-*Built with 🎓 pedagogy, 🤖 AI collaboration, and ⚡ passion for agent architecture*
+*"Whatsoever thy hand findeth to do, do it with thy might" - Ecclesiastes 9:10 (KJV)*
