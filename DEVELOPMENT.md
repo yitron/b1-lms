@@ -1107,3 +1107,113 @@ $ pytest tests/ -v
 
 ---
 
+### TDD Cycle 4: Authentication API - Signup
+
+**Goal:** Implement user signup endpoint with token authentication
+
+**Timestamp: 2026-05-09 17:05**
+
+---
+
+#### RED: Write Failing Tests First
+
+**Created test file:** `backend/tests/test_auth.py`
+
+**6 tests written for signup (all should FAIL):**
+1. `test_signup_creates_user_and_returns_token()` - Create user, return token
+2. `test_signup_without_username_fails()` - Validation: username required
+3. `test_signup_without_password_fails()` - Validation: password required
+4. `test_signup_with_duplicate_username_fails()` - Validation: unique username
+5. `test_signup_email_is_optional()` - Email not required
+6. `test_signup_token_is_valid()` - Token can be used for auth
+
+**Running tests to confirm they FAIL:**
+
+```
+$ pytest tests/test_auth.py::TestAuthSignup -v
+FAILED - 404 (endpoint doesn't exist)
+FAILED - 404 (endpoint doesn't exist)
+FAILED - 404 (endpoint doesn't exist)
+FAILED - 404 (endpoint doesn't exist)
+FAILED - 404 (endpoint doesn't exist)
+FAILED - 404 (endpoint doesn't exist)
+
+6 failed (all returning 404)
+```
+
+✅ **Tests FAIL as expected** - /api/auth/signup/ endpoint doesn't exist yet
+
+**Timestamp: 2026-05-09 17:06**
+
+---
+
+#### GREEN: Minimal Code to Pass Tests
+
+**Creating serializers and views:**
+
+Created files:
+1. `lms/serializers.py`:
+   - UserSerializer (read-only user data)
+   - SignupSerializer (user creation with password validation)
+
+2. `lms/views.py`:
+   - signup() view - POST endpoint, AllowAny permission
+   - Creates user, generates token, returns both
+
+3. `lms/urls.py`:
+   - URL routing for API endpoints
+   - /auth/signup/ → signup view
+
+4. `config/urls.py`:
+   - Include lms.urls at /api/ prefix
+
+**Test Results:**
+```
+$ pytest tests/test_auth.py::TestAuthSignup -v
+✅ test_signup_creates_user_and_returns_token PASSED
+✅ test_signup_without_username_fails PASSED
+✅ test_signup_without_password_fails PASSED
+✅ test_signup_with_duplicate_username_fails PASSED
+✅ test_signup_email_is_optional PASSED
+✅ test_signup_token_is_valid PASSED
+
+6 passed in 0.99s
+```
+
+**Timestamp: 2026-05-09 17:08**
+
+---
+
+#### REFACTOR: Clean Up and Improve
+
+**Checking code quality:**
+
+```
+$ ruff check lms/serializers.py lms/views.py lms/urls.py
+```
+
+Fixed: Removed unused Token import from serializers.py
+
+```
+$ ruff check lms/
+✅ All checks passed!
+```
+
+**Code is clean:**
+- No unused imports
+- Proper DRF patterns (serializers, views, permissions)
+- Password validation via Django validators
+- Token authentication via DRF authtoken
+
+**All tests still passing after refactor:**
+```
+$ pytest tests/ -v
+✅ 22 tests passing (4 setup + 12 models + 6 auth)
+```
+
+**TDD Cycle 4 Complete:** ✅
+
+**Timestamp: 2026-05-09 17:10**
+
+---
+
