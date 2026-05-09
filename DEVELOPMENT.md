@@ -977,3 +977,133 @@ $ pytest tests/test_models.py -v
 
 ---
 
+### TDD Cycle 3: UserProgress Model
+
+**Goal:** Create UserProgress model to track which lessons each user has completed
+
+**Timestamp: 2026-05-09 16:57**
+
+---
+
+#### RED: Write Failing Tests First
+
+**Adding tests to test_models.py:**
+
+**6 tests written (all should FAIL):**
+1. `test_user_progress_creation()` - Create UserProgress
+2. `test_user_progress_unique_together()` - Unique constraint on user+lesson
+3. `test_user_progress_completed_at_timestamp()` - completed_at field
+4. `test_user_can_have_multiple_lesson_progress()` - One user, multiple lessons
+5. `test_multiple_users_can_progress_same_lesson()` - Multiple users, one lesson
+6. `test_user_progress_str_representation()` - __str__ method
+
+**Running tests to confirm they FAIL:**
+
+```
+$ pytest tests/test_models.py::TestUserProgressModel -v
+ERROR: ImportError: cannot import name 'UserProgress' from 'lms.models'
+```
+
+✅ **Tests FAIL as expected** - UserProgress model doesn't exist yet
+
+**Timestamp: 2026-05-09 16:59**
+
+---
+
+#### GREEN: Minimal Code to Pass Tests
+
+**Creating UserProgress model:**
+
+Created UserProgress model in `lms/models.py`:
+- `user` - ForeignKey to User (on_delete=CASCADE)
+- `lesson` - ForeignKey to Lesson (on_delete=CASCADE)
+- `completed` - BooleanField, default False
+- `completed_at` - DateTimeField, nullable
+- `Meta.unique_together` - ('user', 'lesson')
+- `__str__` - Returns "username - lesson_id (status)"
+- `save()` override - Auto-sets completed_at when marking completed
+
+**Database migrations:**
+```
+$ python manage.py makemigrations
+✅ Created lms/migrations/0002_userprogress.py
+
+$ python manage.py migrate
+✅ Applied lms.0002_userprogress
+```
+
+**Test Results:**
+```
+$ pytest tests/test_models.py::TestUserProgressModel -v
+✅ test_user_progress_creation PASSED
+✅ test_user_progress_unique_together PASSED
+✅ test_user_progress_completed_at_timestamp PASSED
+✅ test_user_can_have_multiple_lesson_progress PASSED
+✅ test_multiple_users_can_progress_same_lesson PASSED
+✅ test_user_progress_str_representation PASSED
+
+6 passed in 1.61s
+```
+
+**Timestamp: 2026-05-09 17:01**
+
+---
+
+#### REFACTOR: Clean Up and Improve
+
+**Adding Django admin configuration:**
+
+Configured UserProgressAdmin in `lms/admin.py`:
+- list_display: user, lesson, completed, completed_at
+- list_filter: completed, lesson
+- search_fields: user__username, lesson__lesson_id, lesson__title
+- readonly_fields: completed_at
+- autocomplete_fields: user, lesson (for better UX)
+
+**All tests passing after refactor:**
+```
+$ pytest tests/ -v
+✅ 16 tests passing (4 setup + 6 lesson + 6 userprogress)
+```
+
+**TDD Cycle 3 Complete:** ✅
+
+**Timestamp: 2026-05-09 17:03**
+
+---
+
+### Summary: TDD Cycles 1-3 Complete
+
+**Models Created:**
+1. ✅ Lesson model (8 fields, JSONField for quiz data)
+2. ✅ UserProgress model (4 fields, auto-timestamp on completion)
+
+**Database:**
+- ✅ 2 migrations applied
+- ✅ SQLite database with all tables
+
+**Django Admin:**
+- ✅ LessonAdmin configured (search, filter, ordering)
+- ✅ UserProgressAdmin configured (search, filter, autocomplete)
+
+**Test Coverage:**
+- ✅ 16 tests passing
+- ✅ Setup tests (4)
+- ✅ Model tests (12)
+
+**Files Created/Modified:**
+- `backend/config/settings.py` - Django + DRF configuration
+- `backend/lms/models.py` - Lesson & UserProgress models
+- `backend/lms/admin.py` - Admin configuration
+- `backend/lms/migrations/` - 2 migrations
+- `backend/tests/test_setup.py` - Setup tests
+- `backend/tests/test_models.py` - Model tests
+- `requirements.txt` - Dependencies
+- `pytest.ini` - Test configuration
+
+**Next: TDD Cycles 4-5 (Authentication APIs)**
+
+**Timestamp: 2026-05-09 17:04**
+
+---
+

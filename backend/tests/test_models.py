@@ -1,10 +1,11 @@
 """
-TDD Cycle 2: Lesson Model Tests
-Test that Lesson model works correctly
+TDD Cycle 2 & 3: Model Tests
+Test that Lesson and UserProgress models work correctly
 """
 import pytest
 from django.db import IntegrityError
-from lms.models import Lesson
+from django.contrib.auth.models import User
+from lms.models import Lesson, UserProgress
 
 
 @pytest.mark.django_db
@@ -125,3 +126,116 @@ class TestLessonModel:
         # Retrieve from database
         retrieved = Lesson.objects.get(lesson_id='module-00')
         assert retrieved.quiz_data == quiz_data, "quiz_data should be stored and retrieved as JSON"
+
+
+@pytest.mark.django_db
+class TestUserProgressModel:
+    """Tests for UserProgress model"""
+
+    def test_user_progress_creation(self):
+        """
+        RED: Test that we can create UserProgress
+        Should FAIL - UserProgress model doesn't exist yet
+        """
+        user = User.objects.create_user(username='testuser', password='password123')
+        lesson = Lesson.objects.create(
+            lesson_id='module-00',
+            title='Test Lesson',
+            content='Content',
+            module_number=0,
+            order_index=1
+        )
+
+        progress = UserProgress.objects.create(
+            user=user,
+            lesson=lesson,
+            completed=True
+        )
+
+        assert progress.id is not None, "UserProgress should have an ID"
+        assert progress.user == user, "User should match"
+        assert progress.lesson == lesson, "Lesson should match"
+        assert progress.completed is True, "Completed should be True"
+
+    def test_user_progress_unique_together(self):
+        """
+        RED: Test that user+lesson combination is unique
+        Should FAIL - unique_together constraint not enforced yet
+        """
+        user = User.objects.create_user(username='testuser', password='password123')
+        lesson = Lesson.objects.create(
+            lesson_id='module-00',
+            title='Test',
+            content='Content',
+            module_number=0,
+            order_index=1
+        )
+
+        UserProgress.objects.create(user=user, lesson=lesson, completed=True)
+
+        # Try to create duplicate
+        with pytest.raises(IntegrityError):
+            UserProgress.objects.create(user=user, lesson=lesson, completed=False)
+
+    def test_user_progress_completed_at_timestamp(self):
+        """
+        RED: Test that completed_at is set when marking complete
+        Should FAIL - completed_at field doesn't exist yet
+        """
+        user = User.objects.create_user(username='testuser', password='password123')
+        lesson = Lesson.objects.create(
+            lesson_id='module-00',
+            title='Test',
+            content='Content',
+            module_number=0,
+            order_index=1
+        )
+
+        progress = UserProgress.objects.create(
+            user=user,
+            lesson=lesson,
+            completed=True
+        )
+
+        assert progress.completed_at is not None, "completed_at should be set when completed=True"
+
+    def test_user_can_have_multiple_lesson_progress(self):
+        """
+        RED: Test that one user can have progress on multiple lessons
+        Should FAIL - model doesn't exist yet
+        """
+        user = User.objects.create_user(username='testuser', password='password123')
+        lesson1 = Lesson.objects.create(lesson_id='module-00', title='L1', content='C', module_number=0, order_index=1)
+        lesson2 = Lesson.objects.create(lesson_id='module-01', title='L2', content='C', module_number=1, order_index=2)
+
+        UserProgress.objects.create(user=user, lesson=lesson1, completed=True)
+        UserProgress.objects.create(user=user, lesson=lesson2, completed=True)
+
+        user_progress = UserProgress.objects.filter(user=user)
+        assert user_progress.count() == 2, "User should have progress on 2 lessons"
+
+    def test_multiple_users_can_progress_same_lesson(self):
+        """
+        RED: Test that multiple users can have progress on the same lesson
+        Should FAIL - model doesn't exist yet
+        """
+        user1 = User.objects.create_user(username='user1', password='password123')
+        user2 = User.objects.create_user(username='user2', password='password123')
+        lesson = Lesson.objects.create(lesson_id='module-00', title='Test', content='C', module_number=0, order_index=1)
+
+        UserProgress.objects.create(user=user1, lesson=lesson, completed=True)
+        UserProgress.objects.create(user=user2, lesson=lesson, completed=False)
+
+        lesson_progress = UserProgress.objects.filter(lesson=lesson)
+        assert lesson_progress.count() == 2, "Same lesson should have progress for 2 users"
+
+    def test_user_progress_str_representation(self):
+        """
+        RED: Test __str__ method
+        Should FAIL - __str__ not implemented yet
+        """
+        user = User.objects.create_user(username='testuser', password='password123')
+        lesson = Lesson.objects.create(lesson_id='module-00', title='Test', content='C', module_number=0, order_index=1)
+        progress = UserProgress.objects.create(user=user, lesson=lesson, completed=True)
+
+        assert str(progress) == 'testuser - module-00 (completed)', "__str__ should show user, lesson, and status"
