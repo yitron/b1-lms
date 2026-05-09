@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how AI agents work - Interactive LMS module teaching agent fundamentals">
+    <title>How Agents Work - AI DAI Learning Module</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Skip to main content (accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" role="navigation" aria-label="Lesson navigation">
+            <div class="sidebar-header">
+                <h1 class="logo">How Agents Work</h1>
+                <p class="tagline">AI DAI Learning Module</p>
+            </div>
+
+            <nav class="lesson-nav">
+                <h2 class="nav-title">Lessons</h2>
+                <ul id="lessonList" class="lesson-list"></ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="glossaryBtn" class="btn btn-secondary" aria-label="Toggle glossary">
+                    📚 Glossary
+                </button>
+                <button id="resetBtn" class="btn btn-outline" aria-label="Reset progress">
+                    🔄 Reset Progress
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="main-content" role="main">
+            <div id="lessonContent" class="lesson-content">
+                <!-- Dynamic content loads here -->
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="lesson-navigation">
+                <button id="prevBtn" class="btn btn-nav" style="display: none;">← Previous Lesson</button>
+                <button id="nextBtn" class="btn btn-nav" style="display: none;">Next Lesson →</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Glossary Panel (slide-out) -->
+    <aside id="glossaryPanel" class="glossary-panel" role="complementary" aria-label="Glossary">
+        <div class="glossary-header">
+            <h2>Glossary</h2>
+            <button id="closeGlossary" class="close-btn" aria-label="Close glossary">✕</button>
+        </div>
+        <div id="glossaryContent" class="glossary-content">
+            <!-- Glossary terms load here -->
+        </div>
+    </aside>
+
+    <!-- Completion Modal -->
+    <div id="completionModal" class="modal" role="dialog" aria-labelledby="completionTitle" aria-modal="true" style="display: none;">
+        <div class="modal-content">
+            <h2 id="completionTitle">🎉 Congratulations!</h2>
+            <div id="completionText"></div>
+            <button id="closeModal" class="btn btn-primary">Continue Learning</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="lessons/lessons.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
