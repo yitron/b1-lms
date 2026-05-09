@@ -1217,3 +1217,154 @@ $ pytest tests/ -v
 
 ---
 
+### TDD Cycle 5: Authentication API - Login & Logout
+
+**Goal:** Implement login and logout endpoints
+
+**Timestamp: 2026-05-09 17:11**
+
+---
+
+#### RED: Write Failing Tests First
+
+**Adding login and logout tests to test_auth.py:**
+
+**Tests written:**
+- **TestAuthLogin:** 6 tests for login endpoint
+- **TestAuthLogout:** 3 tests for logout endpoint
+
+**Running tests to confirm they FAIL:**
+
+```
+$ pytest tests/test_auth.py::TestAuthLogin -v
+FAILED - 404 (all 6 tests)
+
+$ pytest tests/test_auth.py::TestAuthLogout -v
+FAILED - 404 (all 3 tests)
+
+9 new tests, all failing (404 - endpoints don't exist)
+```
+
+✅ **Tests FAIL as expected** - /api/auth/login/ and /api/auth/logout/ don't exist yet
+
+**Timestamp: 2026-05-09 17:13**
+
+---
+
+#### GREEN: Minimal Code to Pass Tests
+
+**Creating login and logout views:**
+
+Updated files:
+
+1. `lms/serializers.py`:
+   - Added LoginSerializer with credential validation
+   - Uses Django authenticate() to verify username/password
+
+2. `lms/views.py`:
+   - login() view - POST endpoint, AllowAny permission
+   - logout() view - POST endpoint, IsAuthenticated permission (requires token)
+   - Login returns existing token (or creates new one)
+   - Logout deletes user's token
+
+3. `lms/urls.py`:
+   - Added /auth/login/ → login view
+   - Added /auth/logout/ → logout view
+
+**Test Results:**
+```
+$ pytest tests/test_auth.py -v
+✅ All 15 auth tests PASSED
+
+TestAuthSignup (6 tests):
+✅ test_signup_creates_user_and_returns_token
+✅ test_signup_without_username_fails
+✅ test_signup_without_password_fails
+✅ test_signup_with_duplicate_username_fails
+✅ test_signup_email_is_optional
+✅ test_signup_token_is_valid
+
+TestAuthLogin (6 tests):
+✅ test_login_with_valid_credentials_returns_token
+✅ test_login_with_invalid_password_fails
+✅ test_login_with_nonexistent_user_fails
+✅ test_login_without_username_fails
+✅ test_login_without_password_fails
+✅ test_login_returns_same_token_for_same_user
+
+TestAuthLogout (3 tests):
+✅ test_logout_deletes_token
+✅ test_logout_without_token_fails
+✅ test_logout_with_invalid_token_fails
+
+15 passed in 1.76s
+```
+
+**Timestamp: 2026-05-09 17:15**
+
+---
+
+#### REFACTOR: Clean Up and Improve
+
+**Checking code quality:**
+
+```
+$ ruff check lms/
+```
+
+Fixed: Removed unused TestCase import from lms/tests.py
+
+```
+$ ruff check lms/ --fix
+✅ 1 error fixed
+
+$ ruff check lms/
+✅ All checks passed!
+```
+
+**Code is clean:**
+- LoginSerializer validates credentials with Django authenticate()
+- Login view returns existing token (stateless auth)
+- Logout requires authentication (IsAuthenticated permission)
+- Proper error handling for invalid credentials
+
+**All tests passing after refactor:**
+```
+$ pytest tests/ -v
+✅ 31 tests passing (4 setup + 12 models + 15 auth)
+```
+
+**TDD Cycle 5 Complete:** ✅
+
+**Timestamp: 2026-05-09 17:17**
+
+---
+
+### Summary: Authentication Complete (Cycles 4-5)
+
+**API Endpoints Working:**
+- ✅ POST /api/auth/signup/ - Create user, return token
+- ✅ POST /api/auth/login/ - Authenticate, return token
+- ✅ POST /api/auth/logout/ - Delete token (requires auth)
+
+**Authentication Flow:**
+1. User signs up → receives token
+2. User logs in → receives same token (or new if none exists)
+3. User includes token in requests: `Authorization: Token <key>`
+4. User logs out → token deleted
+
+**Test Coverage:**
+- ✅ 15 authentication tests passing
+- ✅ Signup validation (username/password required, unique username)
+- ✅ Login validation (credentials checked, token returned)
+- ✅ Logout validation (auth required, token deleted)
+
+**Total Progress: Cycles 1-5 Complete**
+- ✅ 31 tests passing total
+- ✅ Models complete (Lesson, UserProgress)
+- ✅ Authentication API complete
+
+**Timestamp: 2026-05-09 17:18**
+
+---
+

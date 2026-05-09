@@ -27,6 +27,29 @@ class SignupSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
-            email=validated_data.get('email', '')
+                email=validated_data.get('email', '')
         )
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    """Serializer for user login"""
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
+
+    def validate(self, data):
+        """Validate credentials"""
+        from django.contrib.auth import authenticate
+
+        username = data.get('username')
+        password = data.get('password')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if not user:
+                raise serializers.ValidationError('Invalid credentials')
+            data['user'] = user
+        else:
+            raise serializers.ValidationError('Must include username and password')
+
+        return data
