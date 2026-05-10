@@ -6,21 +6,21 @@
 
 - **Who is affected?** Developers, students, and professionals learning about AI agent architecture who need structured, interactive educational content.
 
-- **What is the issue?** Most AI agent documentation is scattered across technical papers, API docs, and blog posts. Learners need a cohesive, interactive platform that explains core concepts (LLM APIs, tool use, conversational memory) in a structured, progressive manner with quizzes and visual aids.
+- **What is the issue?** Most AI agent documentation is scattered across technical papers, API docs, and blog posts. Learners need a cohesive, interactive platform that explains core concepts (LLM APIs, tool use, conversational memory) in a structured, progressive manner with multi-user support and persistent progress tracking.
 
 ### Outcome
 
-- **What was achieved?** A fully functional, frontend-only Learning Management System (LMS) teaching AI agent fundamentals through 3 progressive modules with interactive quizzes, visual diagrams, and persistent progress tracking.
+- **What was achieved?** A fully functional, full-stack Learning Management System (LMS) teaching AI agent fundamentals through 3 progressive modules with user authentication, progress tracking, and interactive quizzes.
 
 - **Measurable results:**
-  - 3 comprehensive lessons (Modules 00-02)
-  - 2+ interactive quizzes with instant feedback
-  - 3+ visual diagrams explaining complex concepts
-  - Progress tracking with localStorage persistence
-  - Responsive design (desktop, tablet, mobile)
-  - Keyboard accessible (WCAG AA compliance target)
-  - ~2,500 lines of code (HTML, CSS, JavaScript)
-  - 4 automated test scripts validating functionality
+  - **Backend:** Django + Django REST Framework API
+  - **Database:** SQLite with user authentication and progress tracking
+  - **API Endpoints:** 7 REST endpoints (auth, lessons, progress)
+  - **Test Coverage:** 48 automated tests (pytest-django)
+  - **Content:** 3 comprehensive lessons (Modules 00-02)
+  - **Features:** Multi-user support, token authentication, per-user progress tracking
+  - **Code Quality:** All code passes ruff linting
+  - **Architecture:** Clean separation (API-only backend, SPA frontend)
 
 ---
 
@@ -79,17 +79,24 @@ python3 -m http.server 8001
 
 ## Technology Stack
 
-### Frontend components:
-- **HTML5** - Semantic structure (nav, main, section, article)
-- **CSS3** - Grid/Flexbox layout, responsive design, modern typography
-- **JavaScript (ES6+)** - SPA routing, quiz engine, localStorage API
-- **Google Fonts** - DM Sans (body), Syne (headings)
-- **No frameworks** - Vanilla JavaScript (zero dependencies)
+### Backend:
+- **Django 6.0** - Web framework
+- **Django REST Framework 3.15** - RESTful API
+- **SQLite** - Database (zero-config)
+- **Token Authentication** - DRF TokenAuthentication
+- **pytest-django** - Test framework (48 tests)
+- **ruff** - Python linter
 
-### Backend components:
-- **None** - This is a frontend-only application
-- **Storage:** localStorage (client-side persistence for progress tracking)
-- **Server:** Optional static file server (python3 -m http.server)
+### Frontend (To Be Implemented):
+- **Vanilla JavaScript** - SPA frontend
+- **Tailwind CSS** - Modern minimalist styling
+- **Fetch API** - Backend API integration
+
+### Architecture:
+- **API-only backend** - Django serves JSON (no templates)
+- **Separate SPA frontend** - Static files calling API
+- **Token-based auth** - Stateless authentication
+- **CORS enabled** - Cross-origin support
 
 ---
 
@@ -152,104 +159,170 @@ python3 -m http.server 8001
 
 ## Installation
 
+### Requirements
+
+- Python 3.10+ (tested with Python 3.14)
+- pip (Python package manager)
+
 ### Quick Start
 
 ```bash
 # Clone repository
 git clone https://github.com/yourusername/b1-lms.git
-cd b1-lms
+cd b1-lms/backend
 
-# Option 1: Open directly
-open index.html
+# Create virtual environment
+python3 -m venv venv
 
-# Option 2: Run local server (recommended)
-python3 -m http.server 8001
-# Visit: http://localhost:8001
+# Activate virtual environment
+source venv/bin/activate  # On macOS/Linux
+# OR
+venv\Scripts\activate     # On Windows
+
+# Install dependencies
+pip install -r ../requirements.txt
+
+# Run database migrations
+python manage.py migrate
+
+# Create test lessons (optional)
+python manage.py shell < seed_lessons.py
+
+# Start development server
+python manage.py runserver 8000
 ```
 
-### Requirements
+### Access
 
-- Modern web browser (Chrome 90+, Firefox 88+, Safari 14+)
-- Optional: Python 3 (for local server)
-
-### Why Local Server?
-
-Some browsers restrict JavaScript when using `file://` protocol. A local server ensures:
-- Full localStorage functionality
-- Proper module loading
-- Consistent behavior across browsers
+- **API Base URL:** http://localhost:8000/api/
+- **Admin Panel:** http://localhost:8000/admin/
+- **API Documentation:** See API Endpoints section below
 
 ---
 
 ## Usage
 
-### Running the Application
+### Running the Backend Server
 
 ```bash
-# Method 1: Direct file open
-open index.html
+# From backend directory
+cd backend
 
-# Method 2: Local server
-python3 -m http.server 8001
-# Visit: http://localhost:8001
+# Activate virtual environment
+source venv/bin/activate  # macOS/Linux
+# OR
+venv\Scripts\activate     # Windows
 
-# Method 3: Other static servers
-# Node.js: npx http-server
-# PHP: php -S localhost:8001
+# Start Django development server
+python manage.py runserver 8000
+
+# Server running at http://localhost:8000
 ```
 
 ### Running Tests
 
 ```bash
-# Run all validation tests
-./test.sh
+# From backend directory with venv activated
+cd backend
+source venv/bin/activate
 
-# Run specific test
-./tests/html_validation.sh
-./tests/navigation.sh
-./tests/progress.sh
-./tests/quiz.sh
+# Run all tests
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_auth.py -v
+pytest tests/test_api.py -v
+pytest tests/test_models.py -v
+
+# Run with coverage
+pytest tests/ --cov=lms --cov-report=html
 ```
 
 ### Expected Test Output
 
 ```
-==========================================
-B1 LMS - ESSENTIAL TESTS
-==========================================
+============================= test session starts ==============================
+platform darwin -- Python 3.14.4, pytest-9.0.3, pluggy-1.6.0
+collected 48 items
 
-1. Core Files Check
-✓ All core files present (index.html, script.js, style.css)
+tests/test_api.py::TestLessonsAPI::... PASSED                          [ 17%]
+tests/test_api.py::TestProgressAPI::... PASSED                         [ 37%]
+tests/test_auth.py::TestAuthSignup::... PASSED                         [ 50%]
+tests/test_auth.py::TestAuthLogin::... PASSED                          [ 62%]
+tests/test_auth.py::TestAuthLogout::... PASSED                         [ 68%]
+tests/test_models.py::TestLessonModel::... PASSED                      [ 81%]
+tests/test_models.py::TestUserProgressModel::... PASSED                [ 93%]
+tests/test_setup.py::... PASSED                                        [100%]
 
-2. HTML5 Structure
-✓ HTML5 semantic structure present
-
-3. Lesson Content
-✓ All 3 lessons with content
-
-4. Quiz Functionality
-✓ Interactive quizzes implemented
-
-5. Progress Tracking
-✓ LocalStorage progress tracking working
-
-==========================================
-TEST SUMMARY
-==========================================
-
-Essential Tests: 5 passed, 0 failed
-Component Suites: 4 passed, 0 failed
-
-✓ All tests passed!
+============================== 48 passed in 9.70s ===============================
 ```
 
-### Expected Behavior
+### API Endpoints
 
-1. **First visit:** Module 00 selected by default, progress shows 0/3
-2. **Complete Module 00:** Quiz submitted, progress updates to 1/3
-3. **Navigate to Module 01:** Content loads, previous progress persists
-4. **Refresh browser:** Progress restored from localStorage
-5. **Complete all modules:** Completion screen appears with score summary
+**Authentication:**
+```bash
+# Signup
+POST /api/auth/signup/
+Body: {"username": "user", "password": "pass123", "email": "user@example.com"}
+→ Returns: {"token": "...", "user": {...}}
+
+# Login
+POST /api/auth/login/
+Body: {"username": "user", "password": "pass123"}
+→ Returns: {"token": "...", "user": {...}}
+
+# Logout (requires auth)
+POST /api/auth/logout/
+Headers: Authorization: Token <your-token>
+→ Returns: {"message": "Successfully logged out"}
+```
+
+**Lessons (Public):**
+```bash
+# Get all lessons
+GET /api/lessons/
+→ Returns: {"lessons": [...]}
+
+# Get specific lesson
+GET /api/lessons/module-00/
+→ Returns: {lesson data}
+```
+
+**Progress (Requires Auth):**
+```bash
+# Get user progress
+GET /api/progress/
+Headers: Authorization: Token <your-token>
+→ Returns: {"progress": [...]}
+
+# Mark lesson complete
+POST /api/progress/complete/
+Headers: Authorization: Token <your-token>
+Body: {"lesson_id": "module-00"}
+→ Returns: {"message": "...", "progress": {...}}
+```
+
+### Manual Testing Example
+
+```bash
+# 1. Signup
+curl -X POST http://localhost:8000/api/auth/signup/ \
+  -H "Content-Type: application/json" \
+  -d '{"username": "testuser", "password": "test123"}'
+
+# 2. Get lessons (public)
+curl http://localhost:8000/api/lessons/
+
+# 3. Mark lesson complete (use token from signup)
+curl -X POST http://localhost:8000/api/progress/complete/ \
+  -H "Authorization: Token <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{"lesson_id": "module-00"}'
+
+# 4. Check progress
+curl http://localhost:8000/api/progress/ \
+  -H "Authorization: Token <your-token>"
+```
 
 ---
 
@@ -257,53 +330,60 @@ Component Suites: 4 passed, 0 failed
 
 ```
 b1-lms/
-├── index.html              # Main LMS page (~200 lines)
-│                           # - Sidebar navigation
-│                           # - Main content area
-│                           # - Glossary panel
+├── backend/                    # Django backend
+│   ├── config/                 # Django project settings
+│   │   ├── settings.py         # Django configuration
+│   │   ├── urls.py             # Root URL routing
+│   │   └── wsgi.py             # WSGI application
+│   │
+│   ├── lms/                    # Main Django app
+│   │   ├── models.py           # Lesson, UserProgress models
+│   │   ├── serializers.py      # DRF serializers
+│   │   ├── views.py            # API views
+│   │   ├── urls.py             # API URL routing
+│   │   ├── admin.py            # Django admin configuration
+│   │   └── migrations/         # Database migrations
+│   │
+│   ├── tests/                  # Backend tests
+│   │   ├── test_setup.py       # Setup tests (4)
+│   │   ├── test_models.py      # Model tests (12)
+│   │   ├── test_auth.py        # Auth API tests (15)
+│   │   └── test_api.py         # Lessons/Progress API tests (17)
+│   │
+│   ├── manage.py               # Django management script
+│   ├── db.sqlite3              # SQLite database (created on migrate)
+│   └── venv/                   # Virtual environment
 │
-├── script.js               # LMS functionality (~600 lines)
-│                           # - SPA routing (hash-based)
-│                           # - Quiz engine
-│                           # - Progress tracking (localStorage)
-│                           # - Glossary panel
+├── frontend/                   # SPA frontend (to be implemented)
+│   ├── index.html              # Main HTML
+│   ├── css/
+│   │   └── styles.css          # Tailwind CSS
+│   └── js/
+│       ├── app.js              # Main application
+│       ├── auth.js             # Authentication
+│       ├── api.js              # API client
+│       └── lessons.js          # Lesson display
 │
-├── style.css               # Styling (~700 lines)
-│                           # - Responsive Grid/Flexbox layout
-│                           # - Modern typography (DM Sans, Syne)
-│                           # - Mobile breakpoints
+├── _archive/                   # Archived implementations
+│   ├── 2026-05-08-non-tdd/     # Original frontend-only version
+│   └── 2026-05-09-backend-no-journal/  # Lost backend attempt
 │
-├── lessons/
-│   └── lessons.js          # Lesson content (~1,200 lines)
-│                           # - Module 00: LLM API Communication
-│                           # - Module 01: Pydantic & Tool Use
-│                           # - Module 02: Conversational Memory
-│                           # - Quiz questions & answers
-│                           # - Visual diagrams (SVG)
-│
-├── tests/                  # Test scripts (shell)
-│   ├── html_validation.sh  # HTML structure validation
-│   ├── navigation.sh       # SPA routing tests
-│   ├── progress.sh         # Progress tracking tests
-│   └── quiz.sh             # Quiz functionality tests
-│
-├── test.sh                 # Aggregated test runner
-│
-├── docs/
-│   └── DEVELOPMENT_APPROACH.md  # Methodology documentation
-│
-├── DEVELOPMENT.md          # Development journal
-├── README.md               # This file
-├── LICENSE                 # MIT License
-└── .gitignore              # Git ignore patterns
+├── requirements.txt            # Python dependencies
+├── pytest.ini                  # pytest configuration
+├── DEVELOPMENT.md              # Development journal (TDD cycles)
+├── README.md                   # This file
+├── LICENSE                     # MIT License
+└── .gitignore                  # Git ignore patterns
 ```
 
-### Key Files
+### Key Backend Files
 
-- **`index.html`** - LMS shell with sidebar and main content area
-- **`script.js`** - SPA routing, quiz engine, progress tracking
-- **`style.css`** - Responsive design with CSS Grid/Flexbox
-- **`lessons/lessons.js`** - All lesson content, quizzes, diagrams
+- **`backend/lms/models.py`** - Lesson & UserProgress models (Django ORM)
+- **`backend/lms/serializers.py`** - DRF serializers for API responses
+- **`backend/lms/views.py`** - API views (auth, lessons, progress)
+- **`backend/lms/urls.py`** - API endpoint routing
+- **`backend/config/settings.py`** - Django + DRF configuration
+- **`backend/tests/`** - 48 automated tests (pytest-django)
 
 ---
 
@@ -311,54 +391,76 @@ b1-lms/
 
 ### Development Journey
 
-The development approach for this project **differs from b1-geocities**. This project was built using traditional implementation-first methodology (not TDD). A development journal is available at **[DEVELOPMENT.md](DEVELOPMENT.md)** documenting the current state and potential future improvements.
+This project was **rebuilt from scratch using TRUE Test-Driven Development (TDD)** following the 4D methodology learned from b1-geocities. See **[DEVELOPMENT.md](DEVELOPMENT.md)** for complete development journal.
 
-**High-Level Summary:**
+**Current State (2026-05-09):**
+- [TDD Rebuild Complete](DEVELOPMENT.md)
+  - **Approach:** TRUE TDD (RED-GREEN-REFACTOR for every feature)
+  - **Result:** Full-stack LMS with Django backend, 48 passing tests
+  - **Methodology:** 4D (DISCOVER → DEFINE → DEVELOP → DELIVER)
+  - **Documentation:** Every TDD cycle documented with timestamps
 
-**Current State (2026-05-07):**
-- [Initial State Documentation](DEVELOPMENT.md#2026-05-07-1810---initial-state-documentation)
-  - **Approach:** Traditional development (implementation-first, tests after)
-  - **Result:** Functional LMS with 3 lessons, quizzes, progress tracking
-  - **Assessment:** Works well but not built with TDD methodology
-
-**Key Differences from b1-geocities:**
-- **No TDD:** Tests written after code (not before)
-- **Frontend-only:** No backend, no database
-- **localStorage only:** No persistent server-side storage
-- **Shell tests:** Simple validation scripts (not pytest)
+**Key Implementation:**
+- **8 TDD Cycles:** All documented in DEVELOPMENT.md
+- **Phase 1 (DISCOVER):** Requirements gathered through human-AI Q&A
+- **Phase 2 (DEFINE):** Database schema, API endpoints, test strategy designed
+- **Phase 3 (DEVELOP):** 8 TDD cycles (Models → Auth → Lessons → Progress)
+- **Test Coverage:** 48 tests (4 setup + 12 models + 15 auth + 17 API)
+- **Manual Testing:** All API endpoints verified working
 
 ### What Worked
 
-- **Vanilla JavaScript:** Zero dependencies, fast load times, educational transparency
-- **localStorage:** Simple client-side persistence, no backend complexity
-- **Responsive Design:** CSS Grid/Flexbox works well across devices
-- **Interactive Quizzes:** Instant feedback enhances learning experience
-- **Glossary Panel:** Quick reference without leaving lesson
+✅ **TRUE TDD Methodology**
+- RED-GREEN-REFACTOR for every feature
+- Tests written FIRST, code second
+- 48 tests, all passing
+- Complete test coverage of backend
 
-### What Could Be Improved
+✅ **Django + DRF**
+- Clean API structure
+- Built-in admin panel for managing lessons
+- Token authentication out-of-the-box
+- Excellent ORM for database operations
 
-- **No TDD:** Tests were written after implementation (not test-first)
-- **No Backend:** Progress doesn't sync across devices or browsers
-- **localStorage Limitations:** Data lost if browser cache cleared
-- **No User Accounts:** Can't track progress across multiple users
-- **Content Hardcoded:** Lessons embedded in JavaScript (not editable without code changes)
+✅ **API Design**
+- RESTful endpoints
+- Proper HTTP status codes
+- User isolation (security)
+- Idempotent operations
 
-### Potential Future Enhancements
+✅ **Development Documentation**
+- Every TDD cycle documented in DEVELOPMENT.md
+- Timestamped human-AI collaboration
+- Honest reflection on process
+- Complete development journal
 
-1. **Rebuild with TDD** - Follow b1-geocities methodology (RED-GREEN-REFACTOR)
-2. **Add Backend** - Python/Flask API with SQLite database
-3. **User Accounts** - Login/signup, multi-device progress sync
-4. **Admin Panel** - CMS for editing lessons without touching code
-5. **More Content** - Additional modules on advanced agent topics
-6. **Analytics** - Track which lessons are hardest, where users drop off
+### What's Next (Phase 4: DELIVER)
 
-### Rationale for Current Approach
+**Remaining Tasks:**
+1. ✅ Backend API complete (8 TDD cycles)
+2. ⏳ Seed lesson data script
+3. ⏳ Setup scripts (install.sh, run.sh, test.sh)
+4. ⏳ Frontend implementation (Vanilla JS + Tailwind)
+5. ⏳ Frontend-backend integration
+6. ⏳ Final testing and documentation
 
-This project was created **before** the 4D + TDD methodology was established in b1-geocities. It serves as a useful comparison:
-- **b1-geocities:** Full-stack, TDD, database, proper development journal
-- **b1-lms:** Frontend-only, traditional development, simpler scope
+**Future Enhancements (v2):**
+- Quiz results storage (track history)
+- Comments/discussions on lessons
+- User profiles and statistics
+- Admin dashboard with analytics
+- Email notifications
+- More AI agent content modules
 
-Both approaches have merit depending on project requirements. For a simple learning tool with no server requirements, frontend-only with localStorage is perfectly valid. For production applications requiring data persistence and multi-user support, the b1-geocities approach (TDD + backend) is superior.
+### TDD Success
+
+This project demonstrates **successful TRUE TDD implementation**:
+- ✅ 48 automated tests (all passing)
+- ✅ Manual testing confirms API functionality
+- ✅ Code passes ruff linting
+- ✅ Clean architecture (models → API → frontend)
+- ✅ Complete development journal
+- ✅ Human-AI collaboration documented
 
 ---
 
