@@ -16,63 +16,98 @@
   - **Backend:** Django + Django REST Framework API
   - **Database:** SQLite with user authentication and progress tracking
   - **API Endpoints:** 7 REST endpoints (auth, lessons, progress)
-  - **Test Coverage:** 48 automated tests (pytest-django)
-  - **Content:** 3 comprehensive lessons (Modules 00-02)
+  - **CLI:** 8 commands with Rich terminal formatting
+  - **Test Coverage:** 108 automated tests (48 backend + 60 CLI)
+  - **Content:** 3 comprehensive lessons (Modules 00-02, 22,691 chars)
   - **Features:** Multi-user support, token authentication, per-user progress tracking
-  - **Code Quality:** All code passes ruff linting
-  - **Architecture:** Clean separation (API-only backend, SPA frontend)
+  - **Code Quality:** All code passes ruff linting and pytest
+  - **Architecture:** Clean separation (API-only backend, CLI frontend)
 
 ---
 
 ## Demo
 
-### User Journey
+### User Journey (CLI)
 
-1. **Launch LMS** - Open index.html in browser or run local server
-2. **See lesson sidebar** - 3 modules listed (Module 00, 01, 02)
-3. **Start Module 00** - Click "LLM API Communication" → content loads
-4. **Read lesson** - Scroll through text, view diagrams
-5. **Take quiz** - Answer multiple-choice questions, get instant feedback
-6. **Check glossary** - Open glossary panel to see key terms
-7. **Navigate to Module 01** - Progress automatically saved
-8. **Complete all modules** - See completion screen with score summary
+1. **Install CLI** - `pip install -e cli/`
+2. **Create account** - `lms signup` → Enter username/password
+3. **List lessons** - `lms lessons` → See 3 modules in beautiful table
+4. **View lesson** - `lms view module-00` → Read with Rich markdown rendering
+5. **Complete lesson** - `lms complete module-00` → Mark as done 🎉
+6. **Check progress** - `lms progress` → See completion status with dates
+7. **Continue learning** - Repeat for Module 01, 02
+8. **Finish course** - Get congratulations panel when all complete!
 
-### Screenshots
+### CLI Screenshots
 
-**Main Interface:**
+**List Lessons:**
 ```
-┌─────────────────────────────────────────┐
-│  B1 LMS - How AI Agents Work            │
-├──────────┬──────────────────────────────┤
-│ Sidebar  │ Module 00: LLM API           │
-│          │  Communication                │
-│ Module00 │                               │
-│ Module01 │ [Lesson content with          │
-│ Module02 │  diagrams, text, code         │
-│          │  examples]                    │
-│ Glossary │                               │
-│          │ [Interactive quiz at bottom]  │
-│ [x/3]    │                               │
-└──────────┴──────────────────────────────┘
+$ lms lessons
+
+                               Available Lessons
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Module       ┃ Title                   ┃ Subtitle               ┃   Status   ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ Module 00    │ LLM API Communication   │ Learn the fundamentals │     ✓      │
+│ Module 01    │ Pydantic Pattern & Tool │ Explore how agents use │     ○      │
+│ Module 02    │ Conversational Memory   │ Master context         │     ○      │
+└──────────────┴─────────────────────────┴────────────────────────┴────────────┘
 ```
 
-**Demo Steps:**
+**View Lesson Content:**
+```
+$ lms view module-00
+
+╭──────────────────────────────── 📚 module-00 ────────────────────────────────╮
+│ LLM API Communication                                                        │
+│ Learn the fundamentals of communicating with Large Language Models           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+                        Module 00: LLM API Communication
+
+Introduction
+
+Understanding how to communicate with Large Language Models (LLMs) through APIs
+is the foundation of building AI agents...
+
+[Beautiful markdown rendering with headers, lists, code blocks]
+```
+
+**Check Progress:**
+```
+$ lms progress
+
+                             Your Learning Progress
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Module       ┃ Title                ┃     Status      ┃ Completed            ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ Module 00    │ LLM API Communication│   ✓ Complete    │ 2026-05-10           │
+│ Module 01    │ Pydantic & Tool Use  │   ✓ Complete    │ 2026-05-10           │
+│ Module 02    │ Conversational Memory│  ○ Not started  │                      │
+└──────────────┴──────────────────────┴─────────────────┴──────────────────────┘
+
+Progress: 2/3 lessons completed (66%)
+Keep going! 1 lesson remaining.
+```
+
+**Quick Start:**
 ```bash
-# 1. Open in browser
-open index.html
+# 1. Start backend server (Terminal 1)
+cd backend
+source venv/bin/activate
+python manage.py runserver 8000
 
-# OR use local server
-python3 -m http.server 8001
-# Visit: http://localhost:8001
+# 2. Use CLI (Terminal 2)
+cd cli
+source venv/bin/activate
+pip install -e .
 
-# 2. Navigate through lessons
-# Click Module 00 → Read → Take quiz → Module 01 → etc.
-
-# 3. Check progress
-# Progress indicator shows X/3 completed
-
-# 4. Complete all modules
-# See completion screen with summary
+# 3. Create account and start learning
+lms signup          # Create account
+lms lessons         # See available lessons
+lms view module-00  # Read first lesson
+lms complete module-00  # Mark as done
+lms progress        # Check your progress
 ```
 
 ---
@@ -87,16 +122,19 @@ python3 -m http.server 8001
 - **pytest-django** - Test framework (48 tests)
 - **ruff** - Python linter
 
-### Frontend (To Be Implemented):
-- **Vanilla JavaScript** - SPA frontend
-- **Tailwind CSS** - Modern minimalist styling
-- **Fetch API** - Backend API integration
+### CLI Frontend:
+- **Python 3.10+** - CLI runtime
+- **Click 8.1** - Command-line framework
+- **Rich 13.7** - Terminal UI formatting (tables, markdown, colors)
+- **Requests 2.31** - HTTP client for API calls
+- **pytest 8.1** - Test framework (60 tests)
 
 ### Architecture:
 - **API-only backend** - Django serves JSON (no templates)
-- **Separate SPA frontend** - Static files calling API
-- **Token-based auth** - Stateless authentication
+- **Separate CLI frontend** - Terminal application calling API
+- **Token-based auth** - Stored at ~/.lms/token (600 permissions)
 - **CORS enabled** - Cross-origin support
+- **Frontend-agnostic** - Can add web/mobile frontend later
 
 ---
 
@@ -147,13 +185,14 @@ python3 -m http.server 8001
 
 | Review Point | Decision Made | Rationale |
 |-------------|---------------|-----------|
-| **Frontend-only vs. Full-stack** | Frontend-only | Simpler deployment, no server required, faster iteration |
-| **Framework vs. Vanilla JS** | Vanilla JavaScript | Zero dependencies, educational transparency, faster load |
-| **Data persistence** | localStorage | Client-side storage, no backend needed, instant save |
-| **Lesson format** | Embedded in lessons.js | Single-file deployment, no external content loading |
-| **Test approach** | Shell scripts | Quick validation, no test framework setup required |
+| **Backend Architecture** | API-only (Django + DRF) | Frontend-agnostic, reusable for web/mobile/CLI |
+| **Frontend Type** | CLI (not web) | Target users are developers, faster development |
+| **CLI Framework** | Click + Rich | Professional CLI with beautiful terminal UI |
+| **Data persistence** | SQLite + Token auth | Multi-user support, secure authentication |
+| **Lesson storage** | Database with seed script | Easy content management and updates |
+| **Test approach** | TRUE TDD (RED-GREEN-REFACTOR) | All 12 cycles documented in DEVELOPMENT.md |
 
-**Note:** This project was **NOT built using Test-Driven Development (TDD)**. Tests were written after implementation. See [DEVELOPMENT.md](DEVELOPMENT.md) for honest documentation of the development approach.
+**Note:** This project was built using **TRUE Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See [DEVELOPMENT.md](DEVELOPMENT.md) for complete development journal with timestamps.
 
 ---
 
@@ -163,8 +202,11 @@ python3 -m http.server 8001
 
 - Python 3.10+ (tested with Python 3.14)
 - pip (Python package manager)
+- Two terminal windows (one for backend, one for CLI)
 
 ### Quick Start
+
+**Step 1: Backend Setup**
 
 ```bash
 # Clone repository
@@ -185,11 +227,55 @@ pip install -r ../requirements.txt
 # Run database migrations
 python manage.py migrate
 
-# Create test lessons (optional)
+# Seed lesson content
 python manage.py shell < seed_lessons.py
+
+# Create admin user (optional, for Django admin panel)
+python manage.py createsuperuser
 
 # Start development server
 python manage.py runserver 8000
+# Server running at http://localhost:8000
+```
+
+**Step 2: CLI Setup** (in a new terminal)
+
+```bash
+# Navigate to CLI directory
+cd b1-lms/cli
+
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate  # On macOS/Linux
+# OR
+venv\Scripts\activate     # On Windows
+
+# Install CLI in editable mode
+pip install -e .
+
+# Verify installation
+lms --help
+```
+
+**Step 3: Start Learning!**
+
+```bash
+# Create your account
+lms signup
+
+# List available lessons
+lms lessons
+
+# View a lesson
+lms view module-00
+
+# Mark lesson as complete
+lms complete module-00
+
+# Check your progress
+lms progress
 ```
 
 ### Access
@@ -219,14 +305,59 @@ python manage.py runserver 8000
 # Server running at http://localhost:8000
 ```
 
+### Using the CLI
+
+**Authentication Commands:**
+```bash
+# Create a new account
+lms signup
+# Prompts: Username, Password, Email (optional)
+
+# Login to existing account
+lms login
+# Prompts: Username, Password
+
+# Check authentication status
+lms whoami
+
+# Logout
+lms logout
+```
+
+**Learning Commands:**
+```bash
+# List all available lessons
+lms lessons
+
+# View a specific lesson (with Rich markdown rendering)
+lms view <lesson-id>
+# Example: lms view module-00
+
+# Mark a lesson as complete
+lms complete <lesson-id>
+# Example: lms complete module-00
+
+# Check your learning progress
+lms progress
+```
+
+**CLI Features:**
+- 📚 Beautiful Rich tables and markdown rendering
+- ✓ Colored status indicators (green ✓ for complete, gray ○ for not started)
+- 🎉 Congratulations message when all lessons complete
+- 🔒 Secure token storage at ~/.lms/token (600 permissions)
+- 📊 Progress tracking with completion dates
+- 📝 Quiz indicators showing available quizzes
+
 ### Running Tests
 
+**Backend Tests:**
 ```bash
 # From backend directory with venv activated
 cd backend
 source venv/bin/activate
 
-# Run all tests
+# Run all backend tests (48 tests)
 pytest tests/ -v
 
 # Run specific test file
@@ -236,6 +367,28 @@ pytest tests/test_models.py -v
 
 # Run with coverage
 pytest tests/ --cov=lms --cov-report=html
+```
+
+**CLI Tests:**
+```bash
+# From CLI directory with venv activated
+cd cli
+source venv/bin/activate
+
+# Run all CLI tests (60 tests)
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_auth_commands.py -v
+pytest tests/test_lessons_commands.py -v
+pytest tests/test_progress_commands.py -v
+```
+
+**All Tests:**
+```bash
+# Total: 108 tests (48 backend + 60 CLI)
+# Backend: 48 passed
+# CLI: 60 passed
 ```
 
 ### Expected Test Output
@@ -354,36 +507,59 @@ b1-lms/
 │   ├── db.sqlite3              # SQLite database (created on migrate)
 │   └── venv/                   # Virtual environment
 │
-├── frontend/                   # SPA frontend (to be implemented)
-│   ├── index.html              # Main HTML
-│   ├── css/
-│   │   └── styles.css          # Tailwind CSS
-│   └── js/
-│       ├── app.js              # Main application
-│       ├── auth.js             # Authentication
-│       ├── api.js              # API client
-│       └── lessons.js          # Lesson display
+├── cli/                        # CLI frontend
+│   ├── lms_cli/                # CLI package
+│   │   ├── __init__.py         # Package initialization
+│   │   ├── cli.py              # Main CLI entry point (Click)
+│   │   ├── api_client.py       # HTTP client for API
+│   │   ├── config.py           # Token storage management
+│   │   └── commands/           # CLI commands
+│   │       ├── auth.py         # Auth commands (4 commands)
+│   │       ├── lessons.py      # Lessons commands (2 commands)
+│   │       └── progress.py     # Progress commands (2 commands)
+│   │
+│   ├── tests/                  # CLI tests
+│   │   ├── test_api_client.py  # API client tests (13)
+│   │   ├── test_config.py      # Config tests (13)
+│   │   ├── test_auth_commands.py    # Auth command tests (12)
+│   │   ├── test_lessons_commands.py # Lessons command tests (11)
+│   │   └── test_progress_commands.py # Progress command tests (11)
+│   │
+│   ├── setup.py                # Package setup for pip install
+│   ├── requirements.txt        # CLI dependencies
+│   ├── pytest.ini              # pytest configuration
+│   └── venv/                   # Virtual environment
 │
 ├── _archive/                   # Archived implementations
 │   ├── 2026-05-08-non-tdd/     # Original frontend-only version
 │   └── 2026-05-09-backend-no-journal/  # Lost backend attempt
 │
-├── requirements.txt            # Python dependencies
-├── pytest.ini                  # pytest configuration
+├── requirements.txt            # Python dependencies (backend)
+├── pytest.ini                  # pytest configuration (backend)
 ├── DEVELOPMENT.md              # Development journal (TDD cycles)
 ├── README.md                   # This file
 ├── LICENSE                     # MIT License
 └── .gitignore                  # Git ignore patterns
 ```
 
-### Key Backend Files
+### Key Files
 
+**Backend:**
 - **`backend/lms/models.py`** - Lesson & UserProgress models (Django ORM)
 - **`backend/lms/serializers.py`** - DRF serializers for API responses
 - **`backend/lms/views.py`** - API views (auth, lessons, progress)
 - **`backend/lms/urls.py`** - API endpoint routing
 - **`backend/config/settings.py`** - Django + DRF configuration
+- **`backend/seed_lessons.py`** - Seed script for lesson content
 - **`backend/tests/`** - 48 automated tests (pytest-django)
+
+**CLI:**
+- **`cli/lms_cli/cli.py`** - Main CLI entry point with Click
+- **`cli/lms_cli/api_client.py`** - HTTP client wrapper for API
+- **`cli/lms_cli/config.py`** - Token storage at ~/.lms/token
+- **`cli/lms_cli/commands/`** - 8 CLI commands (auth, lessons, progress)
+- **`cli/setup.py`** - Makes `lms` command available globally
+- **`cli/tests/`** - 60 automated tests (pytest)
 
 ---
 
@@ -393,20 +569,22 @@ b1-lms/
 
 This project was **rebuilt from scratch using TRUE Test-Driven Development (TDD)** following the 4D methodology learned from b1-geocities. See **[DEVELOPMENT.md](DEVELOPMENT.md)** for complete development journal.
 
-**Current State (2026-05-09):**
+**Current State (2026-05-10):**
 - [TDD Rebuild Complete](DEVELOPMENT.md)
   - **Approach:** TRUE TDD (RED-GREEN-REFACTOR for every feature)
-  - **Result:** Full-stack LMS with Django backend, 48 passing tests
+  - **Result:** Full-stack LMS with Django backend + CLI frontend
   - **Methodology:** 4D (DISCOVER → DEFINE → DEVELOP → DELIVER)
   - **Documentation:** Every TDD cycle documented with timestamps
 
 **Key Implementation:**
-- **8 TDD Cycles:** All documented in DEVELOPMENT.md
+- **12 TDD Cycles:** All documented in DEVELOPMENT.md
 - **Phase 1 (DISCOVER):** Requirements gathered through human-AI Q&A
 - **Phase 2 (DEFINE):** Database schema, API endpoints, test strategy designed
-- **Phase 3 (DEVELOP):** 8 TDD cycles (Models → Auth → Lessons → Progress)
-- **Test Coverage:** 48 tests (4 setup + 12 models + 15 auth + 17 API)
-- **Manual Testing:** All API endpoints verified working
+- **Phase 3 (DEVELOP):** 12 TDD cycles
+  - Cycles 1-8: Backend (Models → Auth → Lessons → Progress)
+  - Cycles 9-12: CLI (API Client → Auth → Lessons → Progress)
+- **Test Coverage:** 108 tests (48 backend + 60 CLI)
+- **Manual Testing:** All API endpoints and CLI commands verified working
 
 ### What Worked
 

@@ -1,0 +1,2 @@
+[console_scripts]
+lms = lms_cli.cli:cli

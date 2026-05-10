@@ -1,0 +1,21 @@
+Metadata-Version: 2.4
+Name: b1-lms-cli
+Version: 0.1.0
+Summary: Command-line interface for B1 Learning Management System
+Author: B1 LMS Team
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.14
+Requires-Python: >=3.10
+Requires-Dist: requests>=2.31.0
+Requires-Dist: rich>=13.7.0
+Requires-Dist: click>=8.1.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
