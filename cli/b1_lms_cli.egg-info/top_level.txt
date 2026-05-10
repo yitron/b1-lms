@@ -1,2 +1,0 @@
-lms_cli
-tests
