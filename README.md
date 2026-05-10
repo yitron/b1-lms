@@ -90,19 +90,17 @@ Progress: 2/3 lessons completed (66%)
 Keep going! 1 lesson remaining.
 ```
 
-**Quick Start:**
+**Quick Start (3 commands):**
 ```bash
-# 1. Start backend server (Terminal 1)
-cd backend
-source venv/bin/activate
-python manage.py runserver 8000
+git clone https://github.com/yitron/b1-lms.git && cd b1-lms
+./install.sh        # Automated setup (creates venvs, installs deps, seeds data)
+./run.sh            # Starts backend server + shows CLI instructions
+```
 
-# 2. Use CLI (Terminal 2)
-cd cli
+**Then in a second terminal:**
+```bash
+cd b1-lms/cli
 source venv/bin/activate
-pip install -e .
-
-# 3. Create account and start learning
 lms signup          # Create account
 lms lessons         # See available lessons
 lms view module-00  # Read first lesson
@@ -202,16 +200,43 @@ lms progress        # Check your progress
 
 - Python 3.10+ (tested with Python 3.14)
 - pip (Python package manager)
-- Two terminal windows (one for backend, one for CLI)
+- Git (for cloning repository)
+- Two terminal windows (one for backend server, one for CLI)
+
+### Automated Setup (Recommended)
+
+**Quick start in 3 commands:**
+
+```bash
+git clone https://github.com/yitron/b1-lms.git
+cd b1-lms
+./test.sh      # Check prerequisites
+./install.sh   # Install everything automatically
+./run.sh       # Start the application
+```
+
+The install script will:
+- Create virtual environments for backend and CLI
+- Install all dependencies
+- Run database migrations
+- Seed lesson content
+- Verify the installation
+
+### Manual Setup
+
+If you prefer to set up manually:
 
 ### Quick Start
 
-**Step 1: Backend Setup**
+**Step 1: Clone and Setup Backend**
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/b1-lms.git
-cd b1-lms/backend
+git clone https://github.com/yitron/b1-lms.git
+cd b1-lms
+
+# Navigate to backend directory
+cd backend
 
 # Create virtual environment
 python3 -m venv venv
@@ -230,18 +255,15 @@ python manage.py migrate
 # Seed lesson content
 python manage.py shell < seed_lessons.py
 
-# Create admin user (optional, for Django admin panel)
-python manage.py createsuperuser
-
-# Start development server
+# Start development server (keep this running)
 python manage.py runserver 8000
 # Server running at http://localhost:8000
 ```
 
-**Step 2: CLI Setup** (in a new terminal)
+**Step 2: CLI Setup** (open a new terminal)
 
 ```bash
-# Navigate to CLI directory
+# Navigate to project directory
 cd b1-lms/cli
 
 # Create virtual environment
@@ -252,7 +274,7 @@ source venv/bin/activate  # On macOS/Linux
 # OR
 venv\Scripts\activate     # On Windows
 
-# Install CLI in editable mode
+# Install CLI package (installs dependencies automatically)
 pip install -e .
 
 # Verify installation
@@ -260,6 +282,8 @@ lms --help
 ```
 
 **Step 3: Start Learning!**
+
+**Important:** Make sure the backend server is running (from Step 1) before using CLI commands.
 
 ```bash
 # Create your account
@@ -277,6 +301,11 @@ lms complete module-00
 # Check your progress
 lms progress
 ```
+
+**Troubleshooting:**
+- If you get connection errors, verify backend server is running at http://localhost:8000
+- If `lms` command not found, make sure you ran `pip install -e .` in the CLI directory
+- If database errors occur, run migrations: `python manage.py migrate` in backend directory
 
 ### Access
 
@@ -306,6 +335,8 @@ python manage.py runserver 8000
 ```
 
 ### Using the CLI
+
+**Prerequisites:** Backend server must be running (see above) at http://localhost:8000
 
 **Authentication Commands:**
 ```bash

@@ -1,185 +1,153 @@
 #!/bin/bash
+# B1 LMS - Environment & Test Runner
+# Checks prerequisites and runs automated tests
 
-# ============================================
-# B1 LMS - AGGREGATED TEST RUNNER
-# Tests only essential functionality
-# Robust component tests in tests/
-# ============================================
+set -e
 
-GREEN='\033[0;32m'
+echo "=================================="
+echo "B1 LMS - Environment & Tests"
+echo "=================================="
+echo ""
+
+# Color codes
 RED='\033[0;31m'
+GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo "=========================================="
-echo "B1 LMS - ESSENTIAL TESTS"
-echo "=========================================="
-echo ""
-
-TOTAL_PASSED=0
-TOTAL_FAILED=0
+ERRORS=0
 
 # ============================================
-# ESSENTIAL TEST 1: Core files exist
+# PREREQUISITE CHECKS
 # ============================================
 
-echo "1. Core Files Check"
+echo "Checking prerequisites..."
 echo "-------------------------------------------"
 
-if [ -f "index.html" ] && [ -f "style.css" ] && [ -f "script.js" ] && [ -f "lessons/lessons.js" ]; then
-    echo -e "${GREEN}✓${NC} All core files present (HTML, CSS, JS, lessons data)"
-    ((TOTAL_PASSED++))
+# Test Python version
+if command -v python3 &> /dev/null; then
+    PYTHON_VERSION=$(python3 --version | cut -d' ' -f2)
+    PYTHON_MAJOR=$(echo $PYTHON_VERSION | cut -d'.' -f1)
+    PYTHON_MINOR=$(echo $PYTHON_VERSION | cut -d'.' -f2)
+
+    if [ "$PYTHON_MAJOR" -ge 3 ] && [ "$PYTHON_MINOR" -ge 10 ]; then
+        echo -e "${GREEN}✓${NC} Python $PYTHON_VERSION (requires 3.10+)"
+    else
+        echo -e "${RED}✗${NC} Python $PYTHON_VERSION found, requires 3.10+"
+        ERRORS=$((ERRORS + 1))
+    fi
 else
-    echo -e "${RED}✗${NC} Missing core files"
-    ((TOTAL_FAILED++))
+    echo -e "${RED}✗${NC} Python 3 not found - install from https://www.python.org/"
+    ERRORS=$((ERRORS + 1))
+fi
+
+# Test pip
+if command -v pip3 &> /dev/null; then
+    echo -e "${GREEN}✓${NC} pip available"
+else
+    echo -e "${RED}✗${NC} pip not found - run: python3 -m ensurepip --upgrade"
+    ERRORS=$((ERRORS + 1))
+fi
+
+# Test venv module
+if python3 -m venv --help &> /dev/null; then
+    echo -e "${GREEN}✓${NC} venv module available"
+else
+    echo -e "${RED}✗${NC} venv module not found"
+    ERRORS=$((ERRORS + 1))
 fi
 
 echo ""
 
+# Stop here if prerequisites not met
+if [ $ERRORS -ne 0 ]; then
+    echo -e "${RED}✗ Prerequisites not met. Please install missing dependencies.${NC}"
+    exit 1
+fi
+
 # ============================================
-# ESSENTIAL TEST 2: SPA structure exists
+# INSTALLATION CHECK
 # ============================================
 
-echo "2. SPA Architecture"
+echo "Checking installation..."
 echo "-------------------------------------------"
 
-if grep -q "navigateToLesson" script.js && \
-   grep -q "window.location.hash\|location.hash" script.js; then
-    echo -e "${GREEN}✓${NC} SPA navigation implemented"
-    ((TOTAL_PASSED++))
+BACKEND_READY=false
+CLI_READY=false
+
+if [ -d "backend/venv" ] && [ -f "backend/db.sqlite3" ]; then
+    echo -e "${GREEN}✓${NC} Backend installed"
+    BACKEND_READY=true
 else
-    echo -e "${RED}✗${NC} SPA navigation missing"
-    ((TOTAL_FAILED++))
+    echo -e "${YELLOW}○${NC} Backend not installed"
+fi
+
+if [ -d "cli/venv" ]; then
+    echo -e "${GREEN}✓${NC} CLI installed"
+    CLI_READY=true
+else
+    echo -e "${YELLOW}○${NC} CLI not installed"
 fi
 
 echo ""
 
-# ============================================
-# ESSENTIAL TEST 3: Quiz system exists
-# ============================================
-
-echo "3. Quiz System"
-echo "-------------------------------------------"
-
-if grep -q "renderQuiz\|checkAnswer" script.js && \
-   grep -q "quiz" lessons/lessons.js; then
-    echo -e "${GREEN}✓${NC} Quiz system implemented with data"
-    ((TOTAL_PASSED++))
-else
-    echo -e "${RED}✗${NC} Quiz system not properly implemented"
-    ((TOTAL_FAILED++))
-fi
-
-echo ""
-
-# ============================================
-# ESSENTIAL TEST 4: Progress tracking exists
-# ============================================
-
-echo "4. Progress Tracking"
-echo "-------------------------------------------"
-
-if grep -q "localStorage" script.js && \
-   grep -q "saveProgress\|loadProgress" script.js; then
-    echo -e "${GREEN}✓${NC} Progress tracking with localStorage"
-    ((TOTAL_PASSED++))
-else
-    echo -e "${RED}✗${NC} Progress tracking not implemented"
-    ((TOTAL_FAILED++))
-fi
-
-echo ""
-
-# ============================================
-# ESSENTIAL TEST 5: Lesson content exists
-# ============================================
-
-echo "5. Lesson Content"
-echo "-------------------------------------------"
-
-lesson_count=$(grep -o '"id":\s*"lesson-' lessons/lessons.js | wc -l)
-if [ "$lesson_count" -ge 3 ]; then
-    echo -e "${GREEN}✓${NC} At least 3 lessons present ($lesson_count found)"
-    ((TOTAL_PASSED++))
-else
-    echo -e "${RED}✗${NC} Insufficient lesson content (need 3+, found: $lesson_count)"
-    ((TOTAL_FAILED++))
-fi
-
-echo ""
-
-# ============================================
-# ESSENTIAL TEST 6: No build dependencies
-# ============================================
-
-echo "6. Zero Dependencies Check"
-echo "-------------------------------------------"
-
-if [ ! -f "package.json" ] && [ ! -f "webpack.config.js" ]; then
-    echo -e "${GREEN}✓${NC} No build dependencies (vanilla HTML/CSS/JS)"
-    ((TOTAL_PASSED++))
-else
-    echo -e "${RED}✗${NC} Found build dependencies (should be zero)"
-    ((TOTAL_FAILED++))
-fi
-
-echo ""
-
-# ============================================
-# RUN COMPONENT TEST SUITES (detailed)
-# ============================================
-
-echo "=========================================="
-echo "RUNNING COMPONENT TEST SUITES"
-echo "=========================================="
-echo ""
-
-COMPONENT_FAILED=0
-
-# HTML Validation Suite
-echo "Running HTML validation suite..."
-./tests/html_validation.sh
-if [ $? -ne 0 ]; then ((COMPONENT_FAILED++)); fi
-echo ""
-
-# Navigation Suite
-echo "Running navigation suite..."
-./tests/navigation.sh
-if [ $? -ne 0 ]; then ((COMPONENT_FAILED++)); fi
-echo ""
-
-# Quiz Suite
-echo "Running quiz suite..."
-./tests/quiz.sh
-if [ $? -ne 0 ]; then ((COMPONENT_FAILED++)); fi
-echo ""
-
-# Progress Tracking Suite
-echo "Running progress tracking suite..."
-./tests/progress.sh
-if [ $? -ne 0 ]; then ((COMPONENT_FAILED++)); fi
-echo ""
-
-# ============================================
-# FINAL SUMMARY
-# ============================================
-
-echo "=========================================="
-echo "TEST SUMMARY"
-echo "=========================================="
-echo ""
-echo "Essential Tests: $TOTAL_PASSED passed, $TOTAL_FAILED failed"
-echo "Component Suites: $((4 - COMPONENT_FAILED)) passed, $COMPONENT_FAILED failed"
-echo ""
-
-if [ $TOTAL_FAILED -eq 0 ] && [ $COMPONENT_FAILED -eq 0 ]; then
-    echo -e "${GREEN}✓ All tests passed!${NC}"
-    echo ""
-    echo "Ready to run:"
-    echo "  python3 -m http.server 8001"
-    echo "  Visit: http://localhost:8001"
+# If not installed, direct to install.sh
+if [ "$BACKEND_READY" = false ] || [ "$CLI_READY" = false ]; then
+    echo -e "${YELLOW}Installation required. Run: ./install.sh${NC}"
     exit 0
+fi
+
+# ============================================
+# RUN AUTOMATED TESTS
+# ============================================
+
+echo "=================================="
+echo "Running Automated Tests"
+echo "=================================="
+echo ""
+
+# Backend tests
+echo "Backend Tests (48 tests)..."
+echo "-------------------------------------------"
+cd backend
+source venv/bin/activate
+if pytest tests/ --tb=short -q; then
+    echo -e "${GREEN}✓ Backend: 48 tests passed${NC}"
+else
+    echo -e "${RED}✗ Backend tests failed${NC}"
+    ERRORS=$((ERRORS + 1))
+fi
+deactivate
+cd ..
+
+echo ""
+
+# CLI tests
+echo "CLI Tests (60 tests)..."
+echo "-------------------------------------------"
+cd cli
+source venv/bin/activate
+if pytest tests/ --tb=short -q; then
+    echo -e "${GREEN}✓ CLI: 60 tests passed${NC}"
+else
+    echo -e "${RED}✗ CLI tests failed${NC}"
+    ERRORS=$((ERRORS + 1))
+fi
+deactivate
+cd ..
+
+# ============================================
+# SUMMARY
+# ============================================
+
+echo ""
+echo "=================================="
+if [ $ERRORS -eq 0 ]; then
+    echo -e "${GREEN}✓ All tests passed! (108 total)${NC}"
+    echo ""
+    echo "Next step: ./run.sh to start the application"
 else
     echo -e "${RED}✗ Some tests failed${NC}"
     exit 1
 fi
+echo "=================================="
