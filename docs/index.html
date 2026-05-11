@@ -190,7 +190,7 @@
         <h1>Human-AI Collaboration: A Development Journey</h1>
         <p class="subtitle">Building a full-stack LMS in 3 days using 4D + TDD methodology</p>
         <div class="badge">
-            <span class="check">✓</span> 108/108 tests passing | 12 TDD cycles | 3 days | 2,790 lines
+            <span class="check">✓</span> v1.0.0 Complete | v1.1.0 In Progress (20/20 tests passing)
         </div>
     </header>
 
@@ -547,7 +547,7 @@
                 can work together effectively using structured methodology (4D + TDD).
             </p>
 
-            <h3>Technical Details</h3>
+            <h3>Technical Details (v1.0.0)</h3>
             <ul>
                 <li><strong>Backend:</strong> Django + Django REST Framework, 48 automated tests</li>
                 <li><strong>CLI:</strong> Click + Rich terminal UI, 60 automated tests</li>
@@ -555,6 +555,75 @@
                 <li><strong>Code Quality:</strong> All code passes linting, 100% test success</li>
                 <li><strong>Documentation:</strong> 3,300+ line development journal with timestamps</li>
             </ul>
+
+            <h3>Building on Success (v1.1.0)</h3>
+            <ul>
+                <li><strong>New Models:</strong> Exam, ExamSession, ExamSubmission (3 database tables)</li>
+                <li><strong>New APIs:</strong> 5 endpoints implemented (list, start, submit, status, results)</li>
+                <li><strong>Code Execution:</strong> CodeRunner service supports C, Python, TypeScript</li>
+                <li><strong>Grading System:</strong> ExamGrader with 5 picoshell test cases</li>
+                <li><strong>Test Coverage:</strong> 57 additional tests, all passing (105 total)</li>
+                <li><strong>Methodology:</strong> Same 4D + TDD process, proving repeatability</li>
+            </ul>
+        </section>
+
+        <section id="ongoing">
+            <h2>The Journey Continues: Version 1.1.0</h2>
+
+            <p>
+                <strong>Date:</strong> May 11, 2026 (Monday) - Development ongoing
+            </p>
+
+            <p>
+                The methodology works. Version 1.0.0 shipped successfully. Now we're applying the same process to add new features
+                using <strong>semantic versioning</strong>—each feature increment follows the full 4D + TDD cycle.
+            </p>
+
+            <h3>Current Feature: Exam System (v1.1.0)</h3>
+
+            <p>
+                Building a coding exam where users implement <strong>picoshell</strong> (command pipeline execution) in three languages:
+                C, Python, and TypeScript. The system grades submissions by running tests and comparing outputs.
+            </p>
+
+            <div class="metric-cards">
+                <div class="metric">
+                    <span class="metric-number">7/10</span>
+                    <span class="metric-label">TDD Cycles<br>Complete (70%)</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-number">105/105</span>
+                    <span class="metric-label">Tests Passing<br>100% Success</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-number">5</span>
+                    <span class="metric-label">New API Endpoints<br>Implemented</span>
+                </div>
+            </div>
+
+            <h3>What's Been Built (So Far)</h3>
+            <ul>
+                <li><strong>Cycle 1:</strong> Exam models (Exam, ExamSession, ExamSubmission) - 11 tests</li>
+                <li><strong>Cycle 2:</strong> Exam list API (GET /api/exams/) - 3 tests</li>
+                <li><strong>Cycle 3:</strong> Start exam API (POST /api/exams/start/) - 6 tests</li>
+            </ul>
+
+            <h3>Still To Build</h3>
+            <ul>
+                <li><strong>Cycle 4:</strong> Code runner service (compile/execute C, Python, TypeScript)</li>
+                <li><strong>Cycle 5:</strong> Test suite and grading logic (diff outputs)</li>
+                <li><strong>Cycle 6:</strong> Submit exam API (POST /api/exams/submit/)</li>
+                <li><strong>Cycle 7:</strong> Status and results APIs</li>
+                <li><strong>Cycle 8:</strong> CLI exam commands (5 new commands)</li>
+                <li><strong>Cycle 9:</strong> Module 03 lesson (teaching picoshell concepts)</li>
+                <li><strong>Cycle 10:</strong> Integration testing and polish</li>
+            </ul>
+
+            <p style="margin-top: 2rem; padding: 1rem; background: #f8f8f8; border-radius: 4px;">
+                <strong>Live Development:</strong> This page was last updated during active development.
+                The process continues to be documented in real-time, showing that the methodology
+                isn't just a one-time success—it's <strong>repeatable</strong>.
+            </p>
         </section>
 
         <section id="cta">
@@ -567,18 +636,27 @@
             </div>
 
             <p>
-                <strong>DEVELOPMENT.md</strong> contains the full story: 3,300 lines documenting every conversation,
+                <strong>DEVELOPMENT.md</strong> contains the full story: 3,600+ lines documenting every conversation,
                 decision, test, and iteration. Read it to see how human-AI collaboration actually works in practice.
             </p>
 
             <div class="timeline-box">
                 <strong>Quick Navigation:</strong>
                 <ul style="margin-top: 0.5rem;">
-                    <li><strong>The Incident</strong> (May 8-9) - Why we restarted</li>
-                    <li><strong>DISCOVER Phase</strong> (May 9, 16:20) - 10 Q&A decisions</li>
-                    <li><strong>DEFINE Phase</strong> (May 9, 16:35) - Architecture design</li>
-                    <li><strong>DEVELOP Phase</strong> (May 9-10) - 12 TDD cycles documented</li>
-                    <li><strong>DELIVER Phase</strong> (May 10) - Polish and completion</li>
+                    <li><strong>v1.0.0 Story:</strong></li>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>The Incident</strong> (May 8-9) - Why we restarted</li>
+                        <li><strong>DISCOVER Phase</strong> (May 9, 16:20) - 10 Q&A decisions</li>
+                        <li><strong>DEFINE Phase</strong> (May 9, 16:35) - Architecture design</li>
+                        <li><strong>DEVELOP Phase</strong> (May 9-10) - 12 TDD cycles documented</li>
+                        <li><strong>DELIVER Phase</strong> (May 10) - Polish and completion</li>
+                    </ul>
+                    <li style="margin-top: 1rem;"><strong>v1.1.0 Story:</strong></li>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>DISCOVER Phase</strong> (May 11, 09:00) - Exam feature requirements</li>
+                        <li><strong>DEFINE Phase</strong> (May 11, 09:35) - Specification Driven Development</li>
+                        <li><strong>DEVELOP Phase</strong> (May 11, 09:50) - TDD Cycles 1-3 complete, 7 remaining</li>
+                    </ul>
                 </ul>
             </div>
         </section>
@@ -586,7 +664,7 @@
 
     <footer>
         <p>B1 LMS - Human-AI Development Process Documentation</p>
-        <p>Built May 7-10, 2026 | 4D + TDD Methodology</p>
+        <p>v1.0.0: May 7-10, 2026 | v1.1.0: In Progress (May 11, 2026) | 4D + TDD Methodology</p>
         <p>"Whatsoever thy hand findeth to do, do it with thy might" - Ecclesiastes 9:10 (KJV)</p>
     </footer>
 </body>

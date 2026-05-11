@@ -4,7 +4,7 @@ DRF Serializers for LMS API
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from .models import Lesson, UserProgress
+from .models import Lesson, UserProgress, Exam
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -71,3 +71,10 @@ class UserProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProgress
         fields = ['id', 'lesson_id', 'lesson_title', 'completed', 'completed_at']
+
+
+class ExamSerializer(serializers.ModelSerializer):
+    """Serializer for Exam model (list view - no instructions)"""
+    class Meta:
+        model = Exam
+        fields = ['exam_id', 'title', 'time_limit_minutes']

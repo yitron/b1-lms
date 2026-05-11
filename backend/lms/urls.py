@@ -15,4 +15,10 @@ urlpatterns = [
     # Progress
     path('progress/', views.get_progress, name='get-progress'),
     path('progress/complete/', views.mark_complete, name='mark-complete'),
+    # Exams
+    path('exams/', views.list_exams, name='list-exams'),
+    path('exams/start/', views.start_exam, name='start-exam'),
+    path('exams/submit/', views.submit_exam, name='submit-exam'),
+    path('exams/status/<str:exam_id>/', views.exam_status, name='exam-status'),
+    path('exams/results/<str:exam_id>/', views.exam_results, name='exam-results'),
 ]

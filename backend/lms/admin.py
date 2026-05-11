@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lesson, UserProgress
+from .models import Lesson, UserProgress, Exam, ExamSession, ExamSubmission
 
 
 @admin.register(Lesson)
@@ -20,3 +20,41 @@ class UserProgressAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'lesson__lesson_id', 'lesson__title']
     readonly_fields = ['completed_at']
     autocomplete_fields = ['user', 'lesson']
+
+
+@admin.register(Exam)
+class ExamAdmin(admin.ModelAdmin):
+    """Admin interface for Exam model"""
+    list_display = ['exam_id', 'title', 'time_limit_minutes', 'created_at']
+    search_fields = ['exam_id', 'title', 'instructions']
+    readonly_fields = ['created_at', 'updated_at']
+    ordering = ['exam_id']
+
+
+@admin.register(ExamSession)
+class ExamSessionAdmin(admin.ModelAdmin):
+    """Admin interface for ExamSession model"""
+    list_display = ['id', 'user', 'exam', 'started_at', 'expires_at', 'completed']
+    list_filter = ['completed', 'exam']
+    search_fields = ['user__username', 'exam__exam_id']
+    readonly_fields = ['started_at']
+    autocomplete_fields = ['user', 'exam']
+    ordering = ['-started_at']
+
+
+@admin.register(ExamSubmission)
+class ExamSubmissionAdmin(admin.ModelAdmin):
+    """Admin interface for ExamSubmission model"""
+    list_display = ['id', 'get_user', 'get_exam', 'language', 'grade', 'submitted_at']
+    list_filter = ['language', 'grade']
+    search_fields = ['session__user__username', 'session__exam__exam_id']
+    readonly_fields = ['submitted_at']
+    ordering = ['-submitted_at']
+
+    def get_user(self, obj):
+        return obj.session.user.username
+    get_user.short_description = 'User'
+
+    def get_exam(self, obj):
+        return obj.session.exam.exam_id
+    get_exam.short_description = 'Exam'
