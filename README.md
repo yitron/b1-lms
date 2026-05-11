@@ -1,5 +1,15 @@
 # B1 LMS - Interactive AI Agent Learning Platform
 
+## NOTE FOR HUMANS
+
+- This submission program is programmed with a philosophy **md for ai, html for humans**
+- This is due to the development of Agentic Engineering where markdown are mostly written and read by agents
+- Therefore for a visual view of this `README` it is best you:
+
+```bash
+cd docs && open index.html
+```
+
 ## Overview
 
 ### Problem
@@ -10,17 +20,18 @@
 
 ### Outcome
 
-- **What was achieved?** A fully functional, full-stack Learning Management System (LMS) teaching AI agent fundamentals through 3 progressive modules with user authentication, progress tracking, and interactive quizzes.
+- **What was achieved?** A fully functional, full-stack Learning Management System (LMS) teaching AI agent fundamentals through 3 progressive modules plus a hands-on shell programming exam with multi-language code execution and automated grading.
 
 - **Measurable results:**
   - **Backend:** Django + Django REST Framework API
   - **Database:** SQLite with user authentication and progress tracking
-  - **API Endpoints:** 7 REST endpoints (auth, lessons, progress)
-  - **CLI:** 8 commands with Rich terminal formatting
-  - **Test Coverage:** 108 automated tests (48 backend + 60 CLI)
-  - **Content:** 3 comprehensive lessons (Modules 00-02, 22,691 chars)
-  - **Features:** Multi-user support, token authentication, per-user progress tracking
-  - **Code Quality:** All code passes ruff linting and pytest
+  - **API Endpoints:** 13 REST endpoints (auth, lessons, progress, exams)
+  - **CLI:** 13 commands with Rich terminal formatting
+  - **Test Coverage:** 195 automated tests (117 backend + 78 CLI) - 100% passing
+  - **Content:** 4 comprehensive modules (Modules 00-03 + picoshell exam)
+  - **Features:** Multi-user support, token authentication, per-user progress tracking, timed exams, automated code grading
+  - **Code Execution:** Multi-language support (C, Python, TypeScript) with sandboxed execution
+  - **Code Quality:** 100% ruff compliant, all tests passing
   - **Architecture:** Clean separation (API-only backend, CLI frontend)
 
 ---
@@ -29,14 +40,22 @@
 
 ### User Journey (CLI)
 
+**Learning Path:**
 1. **Install CLI** - `pip install -e cli/`
 2. **Create account** - `lms signup` → Enter username/password
-3. **List lessons** - `lms lessons` → See 3 modules in beautiful table
+3. **List lessons** - `lms lessons` → See 4 modules in beautiful table
 4. **View lesson** - `lms view module-00` → Read with Rich markdown rendering
 5. **Complete lesson** - `lms complete module-00` → Mark as done 🎉
 6. **Check progress** - `lms progress` → See completion status with dates
-7. **Continue learning** - Repeat for Module 01, 02
-8. **Finish course** - Get congratulations panel when all complete!
+7. **Continue learning** - Repeat for Module 01, 02, 03
+
+**Exam Path:**
+8. **List exams** - `lms exams` → See available exams (picoshell)
+9. **Start exam** - `lms exam start picoshell` → Begin timed session (60 min)
+10. **Write code** - Create solution in `~/exam/picoshell.c` (or .py, .ts)
+11. **Submit code** - `lms exam submit picoshell --lang c` → Get instant feedback
+12. **Check status** - `lms exam status picoshell` → See time remaining & grades
+13. **View results** - `lms exam results picoshell` → Full submission history
 
 ### CLI Screenshots
 
@@ -117,15 +136,17 @@ lms progress        # Check your progress
 - **Django REST Framework 3.15** - RESTful API
 - **SQLite** - Database (zero-config)
 - **Token Authentication** - DRF TokenAuthentication
-- **pytest-django** - Test framework (48 tests)
-- **ruff** - Python linter
+- **CodeRunner** - Multi-language code execution (C, Python, TypeScript)
+- **ExamGrader** - Automated test case grading with output comparison
+- **pytest-django** - Test framework (117 tests)
+- **ruff** - Python linter (100% compliant)
 
 ### CLI Frontend:
 - **Python 3.10+** - CLI runtime
 - **Click 8.1** - Command-line framework
 - **Rich 13.7** - Terminal UI formatting (tables, markdown, colors)
 - **Requests 2.31** - HTTP client for API calls
-- **pytest 8.1** - Test framework (60 tests)
+- **pytest 9.0** - Test framework (78 tests)
 
 ### Architecture:
 - **API-only backend** - Django serves JSON (no templates)
@@ -136,61 +157,33 @@ lms progress        # Check your progress
 
 ---
 
-## Development Approach with AI
+## Development Approach
 
-### AI Tools and Models
-- **Claude Sonnet 3.5** - Initial development assistant
-- **Purpose:** Content creation, code structure, quiz generation
+### Development Methodology
+This project was built using **TRUE Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See [DEVELOPMENT.md](DEVELOPMENT.md) for complete development journal with timestamps.
 
-### AI Agents and Roles
-1. **Content Creation Agent**
-   - **Role:** Educational content writer
-   - **Skills:** AI agent fundamentals, technical writing, pedagogy
-   - **Responsibilities:** Write lesson content, create quiz questions, design learning progression
+### Key Design Decisions
 
-2. **Development Agent**
-   - **Role:** Frontend developer
-   - **Skills:** HTML, CSS, JavaScript, responsive design, accessibility
-   - **Responsibilities:** Build SPA routing, quiz engine, progress tracking, responsive layout
-
-### Key Prompts Used
-
-**Content Creation:**
-```
-"Create 3 progressive lessons on AI agent architecture"
-→ Result: Module 00 (LLM APIs), Module 01 (Tool Use), Module 02 (Memory)
-
-"Generate quiz questions for each module"
-→ Result: Interactive quizzes with multiple-choice questions
-
-"Design visual diagrams explaining agent concepts"
-→ Result: SVG diagrams for request/response, tool calling, memory management
-```
-
-**Implementation:**
-```
-"Build a single-page LMS with sidebar navigation"
-→ Result: SPA routing with hash-based navigation
-
-"Implement progress tracking with localStorage"
-→ Result: Persistent progress across browser sessions
-
-"Create responsive design for mobile and desktop"
-→ Result: CSS Grid/Flexbox layout with breakpoints
-```
-
-### Key Review Points and Decisions
-
-| Review Point | Decision Made | Rationale |
+| Decision Point | Choice Made | Rationale |
 |-------------|---------------|-----------|
-| **Backend Architecture** | API-only (Django + DRF) | Frontend-agnostic, reusable for web/mobile/CLI |
-| **Frontend Type** | CLI (not web) | Target users are developers, faster development |
+| **Backend Architecture** | API-only (Django + DRF) | Clean separation, reusable backend |
+| **Frontend Type** | CLI (not web) | Target users are developers, terminal-native workflow |
 | **CLI Framework** | Click + Rich | Professional CLI with beautiful terminal UI |
-| **Data persistence** | SQLite + Token auth | Multi-user support, secure authentication |
-| **Lesson storage** | Database with seed script | Easy content management and updates |
-| **Test approach** | TRUE TDD (RED-GREEN-REFACTOR) | All 12 cycles documented in DEVELOPMENT.md |
+| **Authentication** | Token-based (DRF) | Secure, stateless, multi-user support |
+| **Database** | SQLite | Zero-config, perfect for local development |
+| **Lesson Storage** | Database + seed script | Easy content management and versioning |
+| **Code Execution** | Sandboxed subprocess | Secure multi-language support (C, Python, TypeScript) |
+| **Testing Strategy** | TDD (RED-GREEN-REFACTOR) | Every feature test-first, 195 tests, 100% passing |
+| **Code Quality** | Ruff linter | 100% compliance, consistent style |
 
-**Note:** This project was built using **TRUE Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See [DEVELOPMENT.md](DEVELOPMENT.md) for complete development journal with timestamps.
+### Development Phases (4D Methodology)
+
+1. **DISCOVER** - 10 human-AI Q&A sessions defining requirements
+2. **DEFINE** - Database schema, API design, test strategy
+3. **DEVELOP** - 12+ TDD cycles (v1.0.0 + v1.1.0)
+4. **DELIVER** - Integration testing, linting, documentation
+
+**Complete Timeline:** See [DEVELOPMENT.md](DEVELOPMENT.md) for full 3,300+ line journal with timestamps documenting every TDD cycle, decision, and human-AI collaboration moment.
 
 ---
 
@@ -372,6 +365,27 @@ lms complete <lesson-id>
 lms progress
 ```
 
+**Exam Commands:**
+```bash
+# List all available exams
+lms exams
+
+# Start an exam session (creates timed session)
+lms exam start <exam-id>
+# Example: lms exam start picoshell
+
+# Check exam status (time remaining, submission count)
+lms exam status <exam-id>
+
+# Submit code for grading
+lms exam submit <exam-id> --lang <c|python|typescript>
+# Example: lms exam submit picoshell --lang python
+# Reads from ~/exam/picoshell.py
+
+# View exam results and submission history
+lms exam results <exam-id>
+```
+
 **CLI Features:**
 - 📚 Beautiful Rich tables and markdown rendering
 - ✓ Colored status indicators (green ✓ for complete, gray ○ for not started)
@@ -379,6 +393,9 @@ lms progress
 - 🔒 Secure token storage at ~/.lms/token (600 permissions)
 - 📊 Progress tracking with completion dates
 - 📝 Quiz indicators showing available quizzes
+- ⏱️  Timed exam sessions with automatic expiration
+- 💻 Multi-language code submission (C, Python, TypeScript)
+- 🧪 Instant automated grading with test results
 
 ### Running Tests
 
@@ -388,13 +405,18 @@ lms progress
 cd backend
 source venv/bin/activate
 
-# Run all backend tests (48 tests)
+# Run all backend tests (117 tests)
 pytest tests/ -v
 
-# Run specific test file
-pytest tests/test_auth.py -v
-pytest tests/test_api.py -v
-pytest tests/test_models.py -v
+# Run specific test files
+pytest tests/test_auth.py -v          # Authentication tests
+pytest tests/test_api.py -v           # Lessons/Progress API tests
+pytest tests/test_models.py -v        # Model tests
+pytest tests/test_exam_api.py -v      # Exam API tests
+pytest tests/test_exam_models.py -v   # Exam model tests
+pytest tests/test_code_runner.py -v   # Code execution tests
+pytest tests/test_grading.py -v       # Grading tests
+pytest tests/test_integration.py -v   # Integration tests
 
 # Run with coverage
 pytest tests/ --cov=lms --cov-report=html
@@ -406,20 +428,24 @@ pytest tests/ --cov=lms --cov-report=html
 cd cli
 source venv/bin/activate
 
-# Run all CLI tests (60 tests)
+# Run all CLI tests (78 tests)
 pytest tests/ -v
 
-# Run specific test file
-pytest tests/test_auth_commands.py -v
-pytest tests/test_lessons_commands.py -v
-pytest tests/test_progress_commands.py -v
+# Run specific test files
+pytest tests/test_auth_commands.py -v      # Auth command tests
+pytest tests/test_lessons_commands.py -v   # Lesson command tests
+pytest tests/test_progress_commands.py -v  # Progress command tests
+pytest tests/test_exam_commands.py -v      # Exam command tests
+pytest tests/test_api_client.py -v         # API client tests
+pytest tests/test_config.py -v             # Config tests
 ```
 
 **All Tests:**
 ```bash
-# Total: 108 tests (48 backend + 60 CLI)
-# Backend: 48 passed
-# CLI: 60 passed
+# Total: 195 tests (117 backend + 78 CLI)
+# Backend: 117 passed (100%)
+# CLI: 78 passed (100%)
+# Code Quality: 100% ruff compliant
 ```
 
 ### Expected Test Output
@@ -486,6 +512,36 @@ Body: {"lesson_id": "module-00"}
 → Returns: {"message": "...", "progress": {...}}
 ```
 
+**Exams (Requires Auth):**
+```bash
+# List all exams
+GET /api/exams/
+Headers: Authorization: Token <your-token>
+→ Returns: {"exams": [{exam_id, title, time_limit_minutes, instructions}, ...]}
+
+# Start exam session
+POST /api/exams/start/
+Headers: Authorization: Token <your-token>
+Body: {"exam_id": "picoshell"}
+→ Returns: {session_id, time_limit_minutes, started_at, expires_at, instructions}
+
+# Get exam status
+GET /api/exams/status/<exam_id>/
+Headers: Authorization: Token <your-token>
+→ Returns: {session_id, time_remaining_minutes, expired, completed, submissions}
+
+# Submit code for grading
+POST /api/exams/submit/
+Headers: Authorization: Token <your-token>
+Body: {"exam_id": "picoshell", "language": "python", "code": "..."}
+→ Returns: {submission_id, grade, test_results: {tests_passed, tests_total, tests: [...]}}
+
+# Get exam results
+GET /api/exams/results/<exam_id>/
+Headers: Authorization: Token <your-token>
+→ Returns: {session_id, submissions: [{language, grade, test_results, submitted_at}, ...]}
+```
+
 ### Manual Testing Example
 
 ```bash
@@ -514,27 +570,38 @@ curl http://localhost:8000/api/progress/ \
 
 ```
 b1-lms/
-├── backend/                    # Django backend
+├── backend/                    # Django REST API backend
 │   ├── config/                 # Django project settings
 │   │   ├── settings.py         # Django configuration
 │   │   ├── urls.py             # Root URL routing
 │   │   └── wsgi.py             # WSGI application
 │   │
 │   ├── lms/                    # Main Django app
-│   │   ├── models.py           # Lesson, UserProgress models
+│   │   ├── models.py           # Lesson, UserProgress, Exam, ExamSession, ExamSubmission
 │   │   ├── serializers.py      # DRF serializers
-│   │   ├── views.py            # API views
+│   │   ├── views.py            # API views (auth, lessons, progress, exams)
 │   │   ├── urls.py             # API URL routing
+│   │   ├── code_runner.py      # Multi-language code execution
+│   │   ├── grading.py          # Automated test grading
 │   │   ├── admin.py            # Django admin configuration
 │   │   └── migrations/         # Database migrations
 │   │
-│   ├── tests/                  # Backend tests
+│   ├── lessons/                # Lesson content (Markdown files)
+│   │   └── module-03-picoshell.md
+│   │
+│   ├── tests/                  # Backend tests (117 total)
 │   │   ├── test_setup.py       # Setup tests (4)
 │   │   ├── test_models.py      # Model tests (12)
 │   │   ├── test_auth.py        # Auth API tests (15)
-│   │   └── test_api.py         # Lessons/Progress API tests (17)
+│   │   ├── test_api.py         # Lessons/Progress API tests (17)
+│   │   ├── test_exam_models.py # Exam model tests (11)
+│   │   ├── test_exam_api.py    # Exam API tests (23)
+│   │   ├── test_code_runner.py # Code execution tests (10)
+│   │   ├── test_grading.py     # Grading tests (13)
+│   │   └── test_integration.py # Integration tests (12)
 │   │
 │   ├── manage.py               # Django management script
+│   ├── seed_lessons.py         # Lesson data seeding script
 │   ├── db.sqlite3              # SQLite database (created on migrate)
 │   └── venv/                   # Virtual environment
 │
@@ -543,23 +610,28 @@ b1-lms/
 │   │   ├── __init__.py         # Package initialization
 │   │   ├── cli.py              # Main CLI entry point (Click)
 │   │   ├── api_client.py       # HTTP client for API
-│   │   ├── config.py           # Token storage management
-│   │   └── commands/           # CLI commands
-│   │       ├── auth.py         # Auth commands (4 commands)
-│   │       ├── lessons.py      # Lessons commands (2 commands)
-│   │       └── progress.py     # Progress commands (2 commands)
+│   │   ├── config.py           # Token storage management (~/.lms/token)
+│   │   └── commands/           # CLI commands (13 total)
+│   │       ├── auth.py         # Auth commands (4: signup, login, logout, whoami)
+│   │       ├── lessons.py      # Lessons commands (2: lessons, view)
+│   │       ├── progress.py     # Progress commands (2: progress, complete)
+│   │       └── exam.py         # Exam commands (5: exams, start, status, submit, results)
 │   │
-│   ├── tests/                  # CLI tests
+│   ├── tests/                  # CLI tests (78 total)
 │   │   ├── test_api_client.py  # API client tests (13)
 │   │   ├── test_config.py      # Config tests (13)
 │   │   ├── test_auth_commands.py    # Auth command tests (12)
 │   │   ├── test_lessons_commands.py # Lessons command tests (11)
-│   │   └── test_progress_commands.py # Progress command tests (11)
+│   │   ├── test_progress_commands.py # Progress command tests (11)
+│   │   └── test_exam_commands.py    # Exam command tests (18)
 │   │
 │   ├── setup.py                # Package setup for pip install
 │   ├── requirements.txt        # CLI dependencies
 │   ├── pytest.ini              # pytest configuration
 │   └── venv/                   # Virtual environment
+│
+├── docs/                       # Documentation
+│   └── index.html              # HTML presentation (human-AI collaboration)
 │
 ├── _archive/                   # Archived implementations
 │   ├── 2026-05-08-non-tdd/     # Original frontend-only version
@@ -567,7 +639,10 @@ b1-lms/
 │
 ├── requirements.txt            # Python dependencies (backend)
 ├── pytest.ini                  # pytest configuration (backend)
-├── DEVELOPMENT.md              # Development journal (TDD cycles)
+├── install.sh                  # Automated installation script
+├── run.sh                      # Run script (starts backend + shows CLI instructions)
+├── test.sh                     # Test script (runs all 195 tests)
+├── DEVELOPMENT.md              # Development journal (TDD cycles, 3300+ lines)
 ├── README.md                   # This file
 ├── LICENSE                     # MIT License
 └── .gitignore                  # Git ignore patterns
@@ -576,21 +651,23 @@ b1-lms/
 ### Key Files
 
 **Backend:**
-- **`backend/lms/models.py`** - Lesson & UserProgress models (Django ORM)
+- **`backend/lms/models.py`** - All models (Lesson, UserProgress, Exam, ExamSession, ExamSubmission)
 - **`backend/lms/serializers.py`** - DRF serializers for API responses
-- **`backend/lms/views.py`** - API views (auth, lessons, progress)
-- **`backend/lms/urls.py`** - API endpoint routing
+- **`backend/lms/views.py`** - API views (auth, lessons, progress, exams)
+- **`backend/lms/code_runner.py`** - Multi-language code execution (C, Python, TypeScript)
+- **`backend/lms/grading.py`** - Automated test case grading
+- **`backend/lms/urls.py`** - API endpoint routing (13 endpoints)
 - **`backend/config/settings.py`** - Django + DRF configuration
-- **`backend/seed_lessons.py`** - Seed script for lesson content
-- **`backend/tests/`** - 48 automated tests (pytest-django)
+- **`backend/seed_lessons.py`** - Seed script for lesson and exam content
+- **`backend/tests/`** - 117 automated tests (pytest-django)
 
 **CLI:**
 - **`cli/lms_cli/cli.py`** - Main CLI entry point with Click
 - **`cli/lms_cli/api_client.py`** - HTTP client wrapper for API
 - **`cli/lms_cli/config.py`** - Token storage at ~/.lms/token
-- **`cli/lms_cli/commands/`** - 8 CLI commands (auth, lessons, progress)
+- **`cli/lms_cli/commands/`** - 13 CLI commands (auth, lessons, progress, exams)
 - **`cli/setup.py`** - Makes `lms` command available globally
-- **`cli/tests/`** - 60 automated tests (pytest)
+- **`cli/tests/`** - 78 automated tests (pytest)
 
 ---
 
@@ -598,24 +675,27 @@ b1-lms/
 
 ### Development Journey
 
-This project was **rebuilt from scratch using TRUE Test-Driven Development (TDD)** following the 4D methodology learned from b1-geocities. See **[DEVELOPMENT.md](DEVELOPMENT.md)** for complete development journal.
+This project was **built using TRUE Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See **[DEVELOPMENT.md](DEVELOPMENT.md)** for complete 3,300+ line development journal.
 
-**Current State (2026-05-10):**
-- [TDD Rebuild Complete](DEVELOPMENT.md)
+**Current State (2026-05-11):**
+- **v1.1.0 Complete** - Full-featured LMS with exam system
   - **Approach:** TRUE TDD (RED-GREEN-REFACTOR for every feature)
-  - **Result:** Full-stack LMS with Django backend + CLI frontend
+  - **Result:** Full-stack LMS with Django backend + CLI frontend + code execution
   - **Methodology:** 4D (DISCOVER → DEFINE → DEVELOP → DELIVER)
   - **Documentation:** Every TDD cycle documented with timestamps
 
-**Key Implementation:**
-- **12 TDD Cycles:** All documented in DEVELOPMENT.md
-- **Phase 1 (DISCOVER):** Requirements gathered through human-AI Q&A
-- **Phase 2 (DEFINE):** Database schema, API endpoints, test strategy designed
-- **Phase 3 (DEVELOP):** 12 TDD cycles
-  - Cycles 1-8: Backend (Models → Auth → Lessons → Progress)
-  - Cycles 9-12: CLI (API Client → Auth → Lessons → Progress)
-- **Test Coverage:** 108 tests (48 backend + 60 CLI)
-- **Manual Testing:** All API endpoints and CLI commands verified working
+**Implementation Timeline:**
+- **v1.0.0 (12 TDD Cycles):** Basic LMS functionality
+  - Phase 1 (DISCOVER): 10 human-AI Q&A sessions defining requirements
+  - Phase 2 (DEFINE): Database schema, API endpoints, test strategy
+  - Phase 3 (DEVELOP): 12 TDD cycles
+    - Cycles 1-8: Backend (Models → Auth → Lessons → Progress)
+    - Cycles 9-12: CLI (API Client → Auth → Lessons → Progress)
+- **v1.1.0 (10 TDD Cycles):** Exam system with code execution
+  - Cycles 1-8: Exam models, API, CodeRunner, ExamGrader
+  - Cycles 9-10: CLI exam commands, integration testing
+- **Phase 4:** Code quality (ruff linting, directory cleanup)
+- **Test Coverage:** 195 tests (117 backend + 78 CLI) - 100% passing
 
 ### What Worked
 

@@ -8,8 +8,9 @@ Commands:
 import click
 from rich.console import Console
 from rich.markdown import Markdown
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
+
 from lms_cli.api_client import APIClient
 from lms_cli.config import Config
 
@@ -41,7 +42,7 @@ def lessons_list():
                 # Create map of lesson_id -> completed status
                 for progress in progress_list:
                     progress_map[progress['lesson_id']] = progress.get('completed', False)
-            except:
+            except Exception:
                 # If progress fetch fails, just don't show progress
                 pass
 

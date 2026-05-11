@@ -4,9 +4,10 @@ Tests for API client
 TDD Cycle 9: CLI Setup & API Client
 RED Phase - Write failing tests first
 """
-import pytest
-import json
 from unittest.mock import Mock, patch
+
+import pytest
+
 from lms_cli.api_client import APIClient
 
 
@@ -139,7 +140,7 @@ class TestAPIClientPostRequest:
 
         # Make request with token
         client = APIClient(token="test-token-123")
-        response = client.post("auth/logout/", {})
+        client.post("auth/logout/", {})
 
         # Assertions
         mock_post.assert_called_once_with(

@@ -7,8 +7,9 @@ Commands:
 """
 import click
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
+
 from lms_cli.api_client import APIClient
 from lms_cli.config import Config
 
@@ -65,7 +66,7 @@ def show_progress():
                         from datetime import datetime
                         dt = datetime.fromisoformat(completed_at.replace('Z', '+00:00'))
                         completed_date = dt.strftime('%Y-%m-%d')
-                    except:
+                    except (ValueError, AttributeError):
                         completed_date = completed_at[:10] if len(completed_at) >= 10 else ''
                 else:
                     completed_date = ''
@@ -94,8 +95,8 @@ def show_progress():
                 border_style="green"
             ))
         elif completed_count == 0:
-            console.print(f"[yellow]You haven't completed any lessons yet.[/yellow]")
-            console.print(f"Use [bold]lms view <lesson-id>[/bold] to start learning!")
+            console.print("[yellow]You haven't completed any lessons yet.[/yellow]")
+            console.print("Use [bold]lms view <lesson-id>[/bold] to start learning!")
         else:
             console.print(f"Progress: [bold]{completed_count}/{total_count}[/bold] lessons completed ([green]{percentage}%[/green])")
             console.print(f"Keep going! [bold]{total_count - completed_count}[/bold] lesson{'s' if total_count - completed_count != 1 else ''} remaining.")
@@ -126,7 +127,7 @@ def mark_complete(lesson_id):
 
     try:
         # Mark lesson as complete
-        response = api.post('progress/complete/', {
+        api.post('progress/complete/', {
             'lesson_id': lesson_id
         })
 
@@ -134,7 +135,7 @@ def mark_complete(lesson_id):
         click.echo(click.style(f'✓ Lesson "{lesson_id}" marked as complete!', fg='green'))
         click.echo()
         click.echo('Great job! 🎉')
-        click.echo(f'Use [bold]lms progress[/bold] to see your overall progress.')
+        click.echo('Use [bold]lms progress[/bold] to see your overall progress.')
 
     except Exception as e:
         error_msg = str(e)

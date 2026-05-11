@@ -4,11 +4,10 @@ Tests for authentication commands
 TDD Cycle 10: Auth Commands
 RED Phase - Write failing tests first
 """
+from unittest.mock import Mock, patch
+
 import pytest
 from click.testing import CliRunner
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
-import tempfile
 
 from lms_cli.cli import cli
 

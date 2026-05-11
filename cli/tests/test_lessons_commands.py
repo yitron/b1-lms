@@ -4,9 +4,11 @@ Tests for lessons commands
 TDD Cycle 11: Lessons Commands
 RED Phase - Write failing tests first
 """
+from unittest.mock import Mock, patch
+
 import pytest
 from click.testing import CliRunner
-from unittest.mock import Mock, patch, MagicMock
+
 from lms_cli.cli import cli
 
 

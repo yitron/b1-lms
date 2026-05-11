@@ -3,8 +3,9 @@ API Client for B1 LMS Backend
 
 Handles all HTTP requests to the Django REST API
 """
+from typing import Any, Dict, Optional
+
 import requests
-from typing import Dict, Any, Optional
 
 
 class APIClientError(Exception):
@@ -66,7 +67,7 @@ class APIClient:
                 try:
                     error_data = response.json()
                     error_msg = error_data.get('error', 'Unknown error')
-                except:
+                except (ValueError, KeyError):
                     error_msg = response.text or 'Unknown error'
 
                 raise Exception(f"GET request failed with status {response.status_code}: {error_msg}")
@@ -100,7 +101,7 @@ class APIClient:
                 try:
                     error_data = response.json()
                     error_msg = error_data.get('error', 'Unknown error')
-                except:
+                except (ValueError, KeyError):
                     error_msg = response.text or 'Unknown error'
 
                 raise Exception(f"POST request failed with status {response.status_code}: {error_msg}")

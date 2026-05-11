@@ -2,7 +2,6 @@
 TDD Cycle 1: Django Project Setup Tests
 Test that Django project exists and is configured correctly
 """
-import pytest
 from django.conf import settings
 
 

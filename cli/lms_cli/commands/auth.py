@@ -8,6 +8,7 @@ Commands:
 - whoami: Show current authentication status
 """
 import click
+
 from lms_cli.api_client import APIClient
 from lms_cli.config import Config
 

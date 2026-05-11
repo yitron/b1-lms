@@ -2,12 +2,19 @@
 DRF Views for LMS API
 """
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import SignupSerializer, UserSerializer, LoginSerializer, LessonSerializer, UserProgressSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+
 from .models import Lesson, UserProgress
+from .serializers import (
+    LessonSerializer,
+    LoginSerializer,
+    SignupSerializer,
+    UserProgressSerializer,
+    UserSerializer,
+)
 
 
 @api_view(['POST'])
@@ -186,9 +193,11 @@ def start_exam(request):
     Start an exam session
     Requires authentication
     """
-    from .models import Exam, ExamSession
-    from django.utils import timezone
     from datetime import timedelta
+
+    from django.utils import timezone
+
+    from .models import Exam, ExamSession
 
     exam_id = request.data.get('exam_id')
 
@@ -244,8 +253,8 @@ def submit_exam(request):
     Submit code for exam grading
     Requires authentication
     """
-    from .models import Exam, ExamSession, ExamSubmission
     from .grading import ExamGrader
+    from .models import Exam, ExamSession, ExamSubmission
 
     # Validate required fields
     exam_id = request.data.get('exam_id')

@@ -1,6 +1,5 @@
-import pytest
-import tempfile
 import os
+import tempfile
 
 
 class TestCodeRunner:

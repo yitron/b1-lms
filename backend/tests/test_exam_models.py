@@ -1,7 +1,8 @@
+from datetime import timedelta
+
 import pytest
 from django.contrib.auth.models import User
 from django.utils import timezone
-from datetime import timedelta
 
 
 @pytest.mark.django_db
@@ -39,8 +40,9 @@ class TestExamModel:
 
     def test_exam_id_is_unique(self):
         """Test exam_id must be unique"""
-        from lms.models import Exam
         from django.db import IntegrityError
+
+        from lms.models import Exam
 
         Exam.objects.create(
             exam_id='picoshell',
@@ -136,8 +138,9 @@ class TestExamSessionModel:
 
     def test_one_active_session_per_user_per_exam(self):
         """Test unique constraint for active sessions"""
-        from lms.models import Exam, ExamSession
         from django.db import IntegrityError
+
+        from lms.models import Exam, ExamSession
 
         user = User.objects.create_user(username='testuser', password='test123')
         exam = Exam.objects.create(

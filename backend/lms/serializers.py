@@ -1,10 +1,11 @@
 """
 DRF Serializers for LMS API
 """
-from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from .models import Lesson, UserProgress, Exam
+from rest_framework import serializers
+
+from .models import Exam, Lesson, UserProgress
 
 
 class UserSerializer(serializers.ModelSerializer):

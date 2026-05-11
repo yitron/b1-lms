@@ -4,7 +4,8 @@ Main CLI entry point for B1 LMS
 Uses Click framework for command-line interface
 """
 import click
-from lms_cli.commands import auth, lessons, progress
+
+from lms_cli.commands import auth, exam, lessons, progress
 
 
 @click.group()
@@ -26,6 +27,10 @@ cli.add_command(lessons.view_lesson, name='view')
 # Register progress commands
 cli.add_command(progress.show_progress, name='progress')
 cli.add_command(progress.mark_complete, name='complete')
+
+# Register exam commands
+cli.add_command(exam.exams_list, name='exams')
+cli.add_command(exam.exam_group)  # exam group (start, status, submit, results)
 
 
 if __name__ == '__main__':

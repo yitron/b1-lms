@@ -3,8 +3,9 @@ TDD Cycle 2 & 3: Model Tests
 Test that Lesson and UserProgress models work correctly
 """
 import pytest
-from django.db import IntegrityError
 from django.contrib.auth.models import User
+from django.db import IntegrityError
+
 from lms.models import Lesson, UserProgress
 
 
@@ -114,7 +115,7 @@ class TestLessonModel:
             ]
         }
 
-        lesson = Lesson.objects.create(
+        lesson = Lesson.objects.create(  # noqa: F841
             lesson_id='module-00',
             title='Test',
             content='Content',

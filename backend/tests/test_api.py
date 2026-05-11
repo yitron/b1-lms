@@ -4,8 +4,9 @@ Test lessons and progress API endpoints
 """
 import pytest
 from django.contrib.auth.models import User
-from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
+
 from lms.models import Lesson, UserProgress
 
 
@@ -191,7 +192,7 @@ class TestProgressAPI:
 
         # Create lessons and progress
         lesson1 = Lesson.objects.create(lesson_id='module-00', title='L1', content='C', module_number=0, order_index=1)
-        lesson2 = Lesson.objects.create(lesson_id='module-01', title='L2', content='C', module_number=1, order_index=2)
+        _lesson2 = Lesson.objects.create(lesson_id='module-01', title='L2', content='C', module_number=1, order_index=2)  # noqa: F841
 
         UserProgress.objects.create(user=user, lesson=lesson1, completed=True)
 

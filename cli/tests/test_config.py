@@ -3,10 +3,11 @@ Tests for configuration management
 
 TDD Cycle 9: Config tests
 """
-import pytest
-from pathlib import Path
 import tempfile
-import shutil
+from pathlib import Path
+
+import pytest
+
 from lms_cli.config import Config
 
 
@@ -32,7 +33,7 @@ class TestConfigInit:
             config_dir = Path(tmpdir) / 'lms-config'
             assert not config_dir.exists()
 
-            config = Config(config_dir=config_dir)
+            config = Config(config_dir=config_dir)  # noqa: F841
             assert config_dir.exists()
             assert config_dir.is_dir()
 

@@ -4,9 +4,11 @@ Tests for progress commands
 TDD Cycle 12: Progress Commands
 RED Phase - Write failing tests first
 """
+from unittest.mock import Mock, patch
+
 import pytest
 from click.testing import CliRunner
-from unittest.mock import Mock, patch
+
 from lms_cli.cli import cli
 
 

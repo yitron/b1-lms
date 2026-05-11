@@ -1,9 +1,10 @@
+from datetime import timedelta
+
 import pytest
 from django.contrib.auth.models import User
-from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
 from django.utils import timezone
-from datetime import timedelta
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APIClient
 
 
 @pytest.mark.django_db
@@ -578,22 +579,22 @@ class TestExamStatusAPI:
         assert 'time_remaining_minutes' in response.data
         assert response.data['expired'] is False
         assert response.data['completed'] is False
-        
+
         # Check submissions summary
         assert 'submissions' in response.data
         submissions = response.data['submissions']
         assert 'c' in submissions
         assert 'python' in submissions
         assert 'typescript' in submissions
-        
+
         # C submissions
         assert submissions['c']['attempts'] == 2
         assert submissions['c']['latest_grade'] == 'pass'
-        
+
         # Python submissions
         assert submissions['python']['attempts'] == 1
         assert submissions['python']['latest_grade'] == 'fail'
-        
+
         # TypeScript submissions
         assert submissions['typescript']['attempts'] == 0
         assert submissions['typescript']['latest_grade'] is None
@@ -713,17 +714,17 @@ class TestExamResultsAPI:
         assert response.data['session_id'] == session.id
         assert response.data['exam_id'] == exam.exam_id
         assert 'submissions' in response.data
-        
+
         submissions = response.data['submissions']
         assert len(submissions) == 2
-        
+
         # Check first submission (most recent = python)
         assert submissions[0]['submission_id'] == sub2.id
         assert submissions[0]['language'] == 'python'
         assert submissions[0]['grade'] == 'fail'
         assert 'test_results' in submissions[0]
         assert 'submitted_at' in submissions[0]
-        
+
         # Check second submission (older = c)
         assert submissions[1]['submission_id'] == sub1.id
         assert submissions[1]['language'] == 'c'

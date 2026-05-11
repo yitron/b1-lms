@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Lesson, UserProgress, Exam, ExamSession, ExamSubmission
+
+from .models import Exam, ExamSession, ExamSubmission, Lesson, UserProgress
 
 
 @admin.register(Lesson)
