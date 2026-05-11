@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human-AI Collaboration: A Development Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #111;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 3rem 0 1rem;
+            color: #111;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: #333;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 1rem;
+        }
+
+        .check {
+            color: #22c55e;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        blockquote {
+            border-left: 4px solid #e0e0e0;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem 0;
+        }
+
+        .timeline-box {
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 2rem 0;
+        }
+
+        .decision {
+            background: #f8f8f8;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            border-left: 3px solid #999;
+        }
+
+        .decision strong {
+            color: #111;
+        }
+
+        .metric-cards {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .metric {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f8f8;
+            padding: 2rem 1.5rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #111;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .links {
+            margin: 2rem 0;
+        }
+
+        .links a {
+            display: inline-block;
+            margin-right: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Human-AI Collaboration: A Development Journey</h1>
+        <p class="subtitle">Building a full-stack LMS in 3 days using 4D + TDD methodology</p>
+        <div class="badge">
+            <span class="check">✓</span> 108/108 tests passing | 12 TDD cycles | 3 days | 2,790 lines
+        </div>
+    </header>
+
+    <main>
+        <section id="philosophy">
+            <h2>The Philosophy: "The Process is the Product"</h2>
+            <blockquote>
+                "This repository documents how humans and AI collaborate effectively on software development."
+            </blockquote>
+            <p>
+                This isn't about the Learning Management System (LMS) we built—it's about the <strong>methodology and relationship</strong>
+                that emerged during development. The LMS is merely evidence, an artifact of the human-AI collaboration process.
+            </p>
+            <p>
+                What matters is how we worked together: human vision guiding AI implementation, questions shaping decisions,
+                dialogue creating clarity. The code is proof that the process works.
+            </p>
+        </section>
+
+        <section id="journey">
+            <h2>The Journey: 4D Methodology Timeline</h2>
+
+            <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Timeline Line -->
+                <line x1="50" y1="100" x2="750" y2="100" stroke="#333" stroke-width="2"/>
+
+                <!-- DISCOVER Phase -->
+                <circle cx="100" cy="100" r="30" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="100" y="105" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">DISCOVER</text>
+                <text x="100" y="140" font-size="12" text-anchor="middle" fill="#666">10 Q&A</text>
+                <text x="100" y="160" font-size="11" text-anchor="middle" fill="#999">May 9, 16:20</text>
+
+                <!-- DEFINE Phase -->
+                <circle cx="300" cy="100" r="30" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="300" y="105" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">DEFINE</text>
+                <text x="300" y="140" font-size="12" text-anchor="middle" fill="#666">Design</text>
+                <text x="300" y="160" font-size="11" text-anchor="middle" fill="#999">May 9, 16:35</text>
+
+                <!-- DEVELOP Phase -->
+                <circle cx="500" cy="100" r="30" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="500" y="105" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">DEVELOP</text>
+                <text x="500" y="140" font-size="12" text-anchor="middle" fill="#666">12 Cycles</text>
+                <text x="500" y="160" font-size="11" text-anchor="middle" fill="#999">May 9-10</text>
+
+                <!-- DELIVER Phase -->
+                <circle cx="700" cy="100" r="30" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                <text x="700" y="105" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">DELIVER</text>
+                <text x="700" y="140" font-size="12" text-anchor="middle" fill="#666">Polish</text>
+                <text x="700" y="160" font-size="11" text-anchor="middle" fill="#999">May 10</text>
+
+                <!-- Arrows -->
+                <path d="M 130 100 L 270 100" stroke="#666" stroke-width="1" fill="none" marker-end="url(#arrowhead)"/>
+                <path d="M 330 100 L 470 100" stroke="#666" stroke-width="1" fill="none" marker-end="url(#arrowhead)"/>
+                <path d="M 530 100 L 670 100" stroke="#666" stroke-width="1" fill="none" marker-end="url(#arrowhead)"/>
+
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <p>
+                The 4D methodology provided structure: <strong>DISCOVER</strong> what to build through dialogue,
+                <strong>DEFINE</strong> the architecture through design, <strong>DEVELOP</strong> features through Test-Driven Development,
+                and <strong>DELIVER</strong> a polished product.
+            </p>
+        </section>
+
+        <section id="incident">
+            <h2>The Incident: Origin Story</h2>
+
+            <svg viewBox="0 0 800 150" xmlns="http://www.w3.org/2000/svg">
+                <!-- Panel 1 -->
+                <rect x="20" y="20" width="230" height="110" fill="#f8f8f8" stroke="#ccc" stroke-width="1" rx="4"/>
+                <text x="135" y="50" font-size="13" font-weight="bold" text-anchor="middle" fill="#333">Built without journal</text>
+                <text x="135" y="70" font-size="11" text-anchor="middle" fill="#666">Complete backend</text>
+                <text x="135" y="85" font-size="11" text-anchor="middle" fill="#666">Working tests</text>
+                <text x="135" y="100" font-size="11" text-anchor="middle" fill="#666">No documentation</text>
+                <text x="135" y="120" font-size="10" text-anchor="middle" fill="#999">May 8-9</text>
+
+                <!-- Arrow 1 -->
+                <path d="M 250 75 L 280 75" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrowgray)"/>
+
+                <!-- Panel 2 -->
+                <rect x="280" y="20" width="230" height="110" fill="#fff0f0" stroke="#ffcccc" stroke-width="1" rx="4"/>
+                <text x="395" y="50" font-size="13" font-weight="bold" text-anchor="middle" fill="#cc0000">Lost work</text>
+                <text x="395" y="70" font-size="11" text-anchor="middle" fill="#666">Crash/incident</text>
+                <text x="395" y="85" font-size="11" text-anchor="middle" fill="#666">DEVELOPMENT.md lost</text>
+                <text x="395" y="100" font-size="11" text-anchor="middle" fill="#666">Story unrecoverable</text>
+                <text x="395" y="120" font-size="10" text-anchor="middle" fill="#999">May 9</text>
+
+                <!-- Arrow 2 -->
+                <path d="M 510 75 L 540 75" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrowgray)"/>
+
+                <!-- Panel 3 -->
+                <rect x="540" y="20" width="240" height="110" fill="#f0f8f0" stroke="#cce0cc" stroke-width="1" rx="4"/>
+                <text x="660" y="50" font-size="13" font-weight="bold" text-anchor="middle" fill="#22c55e">Conscious restart</text>
+                <text x="660" y="70" font-size="11" text-anchor="middle" fill="#666">Document everything</text>
+                <text x="660" y="85" font-size="11" text-anchor="middle" fill="#666">Commit frequently</text>
+                <text x="660" y="100" font-size="11" text-anchor="middle" fill="#666">Show the process</text>
+                <text x="660" y="120" font-size="10" text-anchor="middle" fill="#999">May 9, 16:20</text>
+
+                <defs>
+                    <marker id="arrowgray" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#999"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <p>
+                Between May 8-9, we built a complete backend following TDD—but didn't document the collaboration process.
+                When an incident occurred, the code was recovered but the <strong>development journal was lost</strong>.
+                Without the story of how we built it together, we only had code (which could have been written by anyone).
+            </p>
+            <p>
+                <strong>Lesson learned:</strong> The process is the product. We restarted from scratch with intentional documentation,
+                committing after each cycle, capturing the real human-AI dialogue. This time, we told the story as we lived it.
+            </p>
+        </section>
+
+        <section id="discover">
+            <h2>DISCOVER Phase: 10 Human Decisions</h2>
+            <p>
+                AI asked clarifying questions. Human made key decisions. Dialogue shaped the vision.
+            </p>
+
+            <div class="decision">
+                <strong>Q1: What is this LMS project about?</strong><br>
+                Multi-user learning tool teaching AI agent fundamentals to programmers.
+            </div>
+
+            <div class="decision">
+                <strong>Q2: What backend features do we need?</strong><br>
+                Minimal viable set: auth, lessons display, progress tracking, quiz validation.
+            </div>
+
+            <div class="decision">
+                <strong>Q3: Tech stack - Flask or Django?</strong><br>
+                Django (batteries-included approach, admin panel, built-in auth).
+            </div>
+
+            <div class="decision">
+                <strong>Q4: Plain Django or Django REST Framework?</strong><br>
+                Django REST Framework (professional API structure, serializers, industry standard).
+            </div>
+
+            <div class="decision">
+                <strong>Q5: Keep existing frontend or redesign?</strong><br>
+                Complete redesign (font sizing and overall design were off).
+            </div>
+
+            <div class="decision">
+                <strong>Q6: Design aesthetic?</strong><br>
+                Modern minimalist (clean, whitespace, simple typography).
+            </div>
+
+            <div class="decision">
+                <strong>Q7: CSS framework?</strong><br>
+                Tailwind CSS.
+            </div>
+
+            <div class="decision">
+                <strong>Q8: Django serves frontend or separate SPA?</strong><br>
+                API-only backend with separate SPA (clean separation, token auth, reusable API).
+            </div>
+
+            <div class="decision">
+                <strong>Q9: Need installation scripts?</strong><br>
+                Yes - <code>test.sh</code>, <code>install.sh</code>, <code>run.sh</code> (like b1-geocities).
+            </div>
+
+            <div class="decision">
+                <strong>Q10: Keep existing lesson content?</strong><br>
+                Yes - keep the 3 AI agent modules (LLM API, Pydantic & Tools, Memory).
+            </div>
+
+            <p style="margin-top: 2rem;">
+                <strong>Timeline:</strong> May 9, 16:20-16:33 (13 minutes of focused dialogue)<br>
+                <strong>Outcome:</strong> Clear requirements, agreed tech stack, shared vision.
+            </p>
+        </section>
+
+        <section id="tdd-cycle">
+            <h2>The TDD Cycle Loop</h2>
+
+            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Circle background -->
+                <circle cx="200" cy="200" r="160" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-dasharray="5,5"/>
+
+                <!-- RED Phase -->
+                <rect x="120" y="30" width="160" height="60" fill="#ffe0e0" stroke="#cc0000" stroke-width="2" rx="4"/>
+                <text x="200" y="55" font-size="16" font-weight="bold" text-anchor="middle" fill="#cc0000">RED</text>
+                <text x="200" y="75" font-size="12" text-anchor="middle" fill="#666">Write failing test</text>
+
+                <!-- Arrow RED to GREEN -->
+                <path d="M 200 90 L 280 150" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowblack)"/>
+
+                <!-- GREEN Phase -->
+                <rect x="280" y="170" width="160" height="60" fill="#e0f8e0" stroke="#22c55e" stroke-width="2" rx="4"/>
+                <text x="360" y="195" font-size="16" font-weight="bold" text-anchor="middle" fill="#22c55e">GREEN</text>
+                <text x="360" y="215" font-size="12" text-anchor="middle" fill="#666">Make test pass</text>
+
+                <!-- Arrow GREEN to REFACTOR -->
+                <path d="M 280 200 L 200 260" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowblack)"/>
+
+                <!-- REFACTOR Phase -->
+                <rect x="120" y="280" width="160" height="60" fill="#e0e0ff" stroke="#3b82f6" stroke-width="2" rx="4"/>
+                <text x="200" y="305" font-size="16" font-weight="bold" text-anchor="middle" fill="#3b82f6">REFACTOR</text>
+                <text x="200" y="325" font-size="12" text-anchor="middle" fill="#666">Clean up code</text>
+
+                <!-- Arrow REFACTOR to RED -->
+                <path d="M 120 310 L 40 200 L 120 90" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowblack)"/>
+
+                <!-- Center text -->
+                <text x="200" y="195" font-size="13" font-weight="bold" text-anchor="middle" fill="#333">Repeated</text>
+                <text x="200" y="215" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">12 times</text>
+
+                <defs>
+                    <marker id="arrowblack" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#666"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <p>
+                True Test-Driven Development: write a test that fails (<strong>RED</strong>), write just enough code to make it pass
+                (<strong>GREEN</strong>), then clean up the implementation (<strong>REFACTOR</strong>). Repeat for every single feature.
+            </p>
+            <p>
+                We completed this cycle <strong>12 times</strong> over 3 days, building the entire application incrementally.
+                Each cycle documented with timestamps, dialogue, and honest iteration.
+            </p>
+        </section>
+
+        <section id="progression">
+            <h2>Feature Progression: Building from Foundation Up</h2>
+
+            <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Block 6: CLI Commands -->
+                <rect x="100" y="50" width="400" height="60" fill="#e0e0e0" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="300" y="75" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">CLI Commands (4)</text>
+                <text x="300" y="95" font-size="11" text-anchor="middle" fill="#666">Cycles 9-12</text>
+
+                <!-- Block 5: Progress API -->
+                <rect x="100" y="120" width="400" height="60" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="300" y="145" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Progress API (2)</text>
+                <text x="300" y="165" font-size="11" text-anchor="middle" fill="#666">Cycles 7-8</text>
+
+                <!-- Block 4: Lessons API -->
+                <rect x="100" y="190" width="400" height="60" fill="#e0e0e0" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="300" y="215" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Lessons API (2)</text>
+                <text x="300" y="235" font-size="11" text-anchor="middle" fill="#666">Cycles 5-6</text>
+
+                <!-- Block 3: Auth API -->
+                <rect x="100" y="260" width="400" height="60" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="300" y="285" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Auth API (2)</text>
+                <text x="300" y="305" font-size="11" text-anchor="middle" fill="#666">Cycles 3-4</text>
+
+                <!-- Block 2: Data Models -->
+                <rect x="100" y="330" width="400" height="60" fill="#e0e0e0" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="300" y="355" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Data Models (2)</text>
+                <text x="300" y="375" font-size="11" text-anchor="middle" fill="#666">Cycles 2-3</text>
+
+                <!-- Block 1: Django Setup -->
+                <rect x="100" y="400" width="400" height="60" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="300" y="425" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Django Setup (1)</text>
+                <text x="300" y="445" font-size="11" text-anchor="middle" fill="#666">Cycle 1</text>
+
+                <!-- Arrow showing upward build -->
+                <path d="M 520 430 L 560 100" stroke="#999" stroke-width="2" fill="none" marker-end="url(#arrowup)"/>
+                <text x="575" y="260" font-size="12" fill="#999" transform="rotate(-80 575 260)">Built incrementally</text>
+
+                <defs>
+                    <marker id="arrowup" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#999"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <p>
+                Foundation-first approach: start with Django project setup, add data models, build authentication,
+                implement lessons API, add progress tracking, and finally create the CLI interface.
+            </p>
+            <p>
+                Each layer builds on the previous. Each layer fully tested before moving up. No feature left incomplete.
+            </p>
+        </section>
+
+        <section id="division">
+            <h2>Division of Labor: Collaborative Partnership</h2>
+
+            <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Human side -->
+                <rect x="50" y="50" width="300" height="200" fill="#f8f8f8" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="200" y="80" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Human (15%)</text>
+
+                <text x="70" y="120" font-size="13" fill="#555">• Vision & Direction</text>
+                <text x="70" y="145" font-size="13" fill="#555">• Key Decisions</text>
+                <text x="70" y="170" font-size="13" fill="#555">• Requirements Clarification</text>
+                <text x="70" y="195" font-size="13" fill="#555">• Final Validation</text>
+                <text x="70" y="220" font-size="13" fill="#555">• Quality Standards</text>
+
+                <!-- AI side -->
+                <rect x="450" y="50" width="300" height="200" fill="#f8f8f8" stroke="#333" stroke-width="2" rx="4"/>
+                <text x="600" y="80" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">AI (85%)</text>
+
+                <text x="470" y="120" font-size="13" fill="#555">• Code Generation</text>
+                <text x="470" y="145" font-size="13" fill="#555">• Test Writing</text>
+                <text x="470" y="170" font-size="13" fill="#555">• Implementation Details</text>
+                <text x="470" y="195" font-size="13" fill="#555">• Documentation Writing</text>
+                <text x="470" y="220" font-size="13" fill="#555">• Debugging & Iteration</text>
+
+                <!-- Connection -->
+                <path d="M 350 150 L 450 150" stroke="#999" stroke-width="2" fill="none"/>
+                <circle cx="400" cy="150" r="20" fill="#fff" stroke="#333" stroke-width="2"/>
+                <text x="400" y="155" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">+</text>
+            </svg>
+
+            <p>
+                Neither dominates—collaboration emerges from <strong>dialogue</strong>. Human sets direction, AI asks clarifying questions.
+                Human makes decisions, AI implements with tests. Human validates, AI iterates.
+            </p>
+            <p>
+                The percentages don't tell the whole story. The <strong>relationship</strong> is what matters:
+                a partnership where each brings different strengths to create something neither could build alone.
+            </p>
+        </section>
+
+        <section id="evidence">
+            <h2>Evidence: A Working System</h2>
+
+            <div class="metric-cards">
+                <div class="metric">
+                    <span class="metric-number">108</span>
+                    <span class="metric-label">Tests Passing<br>100% Success Rate</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-number">12</span>
+                    <span class="metric-label">TDD Cycles<br>Backend + CLI</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-number">3</span>
+                    <span class="metric-label">Days Total<br>May 7-10, 2026</span>
+                </div>
+            </div>
+
+            <p>
+                The LMS is the proof—a working, tested, production-ready application built through human-AI collaboration.
+                It has user authentication, lesson management, progress tracking, and a beautiful CLI interface.
+            </p>
+            <p>
+                But the real achievement isn't the LMS. It's the <strong>documented process</strong> showing how humans and AI
+                can work together effectively using structured methodology (4D + TDD).
+            </p>
+
+            <h3>Technical Details</h3>
+            <ul>
+                <li><strong>Backend:</strong> Django + Django REST Framework, 48 automated tests</li>
+                <li><strong>CLI:</strong> Click + Rich terminal UI, 60 automated tests</li>
+                <li><strong>Architecture:</strong> API-only backend, frontend-agnostic design</li>
+                <li><strong>Code Quality:</strong> All code passes linting, 100% test success</li>
+                <li><strong>Documentation:</strong> 3,300+ line development journal with timestamps</li>
+            </ul>
+        </section>
+
+        <section id="cta">
+            <h2>Explore the Journey</h2>
+
+            <div class="links">
+                <a href="https://github.com/yitron/b1-lms/blob/main/DEVELOPMENT.md">📖 Read DEVELOPMENT.md</a>
+                <a href="https://github.com/yitron/b1-lms">💻 Browse the code on GitHub</a>
+                <a href="https://github.com/yitron/b1-lms#installation">🚀 Try it yourself</a>
+            </div>
+
+            <p>
+                <strong>DEVELOPMENT.md</strong> contains the full story: 3,300 lines documenting every conversation,
+                decision, test, and iteration. Read it to see how human-AI collaboration actually works in practice.
+            </p>
+
+            <div class="timeline-box">
+                <strong>Quick Navigation:</strong>
+                <ul style="margin-top: 0.5rem;">
+                    <li><strong>The Incident</strong> (May 8-9) - Why we restarted</li>
+                    <li><strong>DISCOVER Phase</strong> (May 9, 16:20) - 10 Q&A decisions</li>
+                    <li><strong>DEFINE Phase</strong> (May 9, 16:35) - Architecture design</li>
+                    <li><strong>DEVELOP Phase</strong> (May 9-10) - 12 TDD cycles documented</li>
+                    <li><strong>DELIVER Phase</strong> (May 10) - Polish and completion</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>B1 LMS - Human-AI Development Process Documentation</p>
+        <p>Built May 7-10, 2026 | 4D + TDD Methodology</p>
+        <p>"Whatsoever thy hand findeth to do, do it with thy might" - Ecclesiastes 9:10 (KJV)</p>
+    </footer>
+</body>
+</html>
