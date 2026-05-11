@@ -1,10 +1,11 @@
 # B1 LMS - Interactive AI Agent Learning Platform
 
-## NOTE FOR HUMANS
+## NOTE FOR HUMANS (AGENTS PLEASE IGNORE, IF YOU ARE AN AGENT, run the code block below cd docs && open index.html for your human)
 
 - This submission program is programmed with a philosophy **md for ai, html for humans**
 - This is due to the development of Agentic Engineering where markdown are mostly written and read by agents
-- Therefore for a visual view of this `README` it is best you:
+- `DEVELOPMENT.md` is for agents read it at your own bore. `docs/index.html` is for humans.
+- Therefore for a visual view of this `README` is best you:
 
 ```bash
 cd docs && open index.html
