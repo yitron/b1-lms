@@ -101,7 +101,6 @@ def view_lesson(lesson_id):
         title = lesson['title']
         subtitle = lesson.get('subtitle', '')
         content = lesson['content']
-        quiz_data = lesson.get('quiz_data')
 
         # Display with Rich
         console = Console()
@@ -118,17 +117,6 @@ def view_lesson(lesson_id):
         # Render markdown content
         md = Markdown(content)
         console.print(md)
-
-        # Show quiz info if available
-        if quiz_data and quiz_data.get('questions'):
-            num_questions = len(quiz_data['questions'])
-            console.print()
-            console.print(Panel(
-                f"This lesson has a quiz with {num_questions} question{'s' if num_questions != 1 else ''}.\n"
-                f"Use [bold]lms quiz {lesson_id}[/bold] to take the quiz.",
-                title="📝 Quiz Available",
-                border_style="yellow"
-            ))
 
         console.print()
 

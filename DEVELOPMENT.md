@@ -5694,3 +5694,75 @@ python -m pytest --tb=short -q
 
 ---
 
+## 2026-05-11 19:26 - Debugging Session: Quiz Command Reference
+
+**Issue Discovered:**
+When viewing a lesson with `lms view module-00`, the CLI displayed:
+```
+╭─────────────────────────── 📝 Quiz Available ───────────────────────────╮
+│ This lesson has a quiz with 5 questions.                               │
+│ Use lms quiz module-00 to take the quiz.                              │
+╰────────────────────────────────────────────────────────────────────────╯
+```
+
+But running `lms quiz module-00` resulted in:
+```
+Error: No such command 'quiz'.
+```
+
+**Root Cause:**
+The `lms quiz` command was never implemented in v1.1.0. This was stale code from the original design when quizzes were planned but never built. The lesson viewer was referencing a non-existent command.
+
+**Investigation:**
+1. Checked `cli/lms_cli/commands/lessons.py:122-131`
+2. Found quiz panel display logic in `view_lesson()` function
+3. Confirmed no quiz command exists in `cli/lms_cli/cli.py`
+4. Found 2 related tests in `cli/tests/test_lessons_commands.py:235-289`
+
+**Fix Applied:**
+
+1. **Removed quiz panel display** from `lessons.py`:
+   - Deleted lines 122-131 (quiz info panel)
+   - Removed unused `quiz_data` variable (line 104)
+
+2. **Removed quiz tests** from `test_lessons_commands.py`:
+   - Deleted entire `TestViewLessonWithQuiz` class (lines 235-289)
+   - Removed 2 tests: `test_view_lesson_shows_quiz_indicator`, `test_view_lesson_without_quiz`
+
+**Verification:**
+```bash
+# CLI tests
+cd cli
+source venv/bin/activate
+python -m pytest tests/test_lessons_commands.py -v
+# Result: 9/9 tests PASSED ✅
+
+python -m pytest --tb=short -q
+# Result: 76/76 tests PASSED ✅
+
+# Backend tests
+cd ../backend
+source venv/bin/activate
+python -m pytest --tb=short -q
+# Result: 117/117 tests PASSED ✅
+```
+
+**New Test Count:**
+- Backend: 117 tests ✅
+- CLI: 76 tests ✅ (was 78, removed 2 quiz tests)
+- **Total: 193 tests** ✅ (was 195)
+
+**Files Modified:**
+- `cli/lms_cli/commands/lessons.py` - Removed quiz display logic
+- `cli/tests/test_lessons_commands.py` - Removed quiz tests
+
+**Reason for Bug:**
+Quizzes were part of the original v1.0.0 design but were deprioritized in favor of the exam system (Module 03 + picoshell). The quiz references were never cleaned up during the pivot to exams.
+
+**User Impact:**
+Fixed misleading error message. Users will no longer see references to a non-existent `lms quiz` command when viewing lessons.
+
+**Timestamp: 2026-05-11 19:30**
+
+---
+

@@ -27,7 +27,7 @@ cd docs && open index.html
   - **Database:** SQLite with user authentication and progress tracking
   - **API Endpoints:** 13 REST endpoints (auth, lessons, progress, exams)
   - **CLI:** 13 commands with Rich terminal formatting
-  - **Test Coverage:** 195 automated tests (117 backend + 78 CLI) - 100% passing
+  - **Test Coverage:** 193 automated tests (117 backend + 76 CLI) - 100% passing
   - **Content:** 4 comprehensive modules (Modules 00-03 + picoshell exam)
   - **Features:** Multi-user support, token authentication, per-user progress tracking, timed exams, automated code grading
   - **Code Execution:** Multi-language support (C, Python, TypeScript) with sandboxed execution
@@ -173,7 +173,7 @@ This project was built using **TRUE Test-Driven Development (TDD)** following th
 | **Database** | SQLite | Zero-config, perfect for local development |
 | **Lesson Storage** | Database + seed script | Easy content management and versioning |
 | **Code Execution** | Sandboxed subprocess | Secure multi-language support (C, Python, TypeScript) |
-| **Testing Strategy** | TDD (RED-GREEN-REFACTOR) | Every feature test-first, 195 tests, 100% passing |
+| **Testing Strategy** | TDD (RED-GREEN-REFACTOR) | Every feature test-first, 193 tests, 100% passing |
 | **Code Quality** | Ruff linter | 100% compliance, consistent style |
 
 ### Development Phases (4D Methodology)
@@ -442,7 +442,7 @@ pytest tests/test_config.py -v             # Config tests
 
 **All Tests:**
 ```bash
-# Total: 195 tests (117 backend + 78 CLI)
+# Total: 193 tests (117 backend + 76 CLI)
 # Backend: 117 passed (100%)
 # CLI: 78 passed (100%)
 # Code Quality: 100% ruff compliant
@@ -641,7 +641,7 @@ b1-lms/
 ├── pytest.ini                  # pytest configuration (backend)
 ├── install.sh                  # Automated installation script
 ├── run.sh                      # Run script (starts backend + shows CLI instructions)
-├── test.sh                     # Test script (runs all 195 tests)
+├── test.sh                     # Test script (runs all 193 tests)
 ├── DEVELOPMENT.md              # Development journal (TDD cycles, 3300+ lines)
 ├── README.md                   # This file
 ├── LICENSE                     # MIT License
@@ -695,7 +695,7 @@ This project was **built using TRUE Test-Driven Development (TDD)** following th
   - Cycles 1-8: Exam models, API, CodeRunner, ExamGrader
   - Cycles 9-10: CLI exam commands, integration testing
 - **Phase 4:** Code quality (ruff linting, directory cleanup)
-- **Test Coverage:** 195 tests (117 backend + 78 CLI) - 100% passing
+- **Test Coverage:** 193 tests (117 backend + 76 CLI) - 100% passing
 
 ### What Worked
 
