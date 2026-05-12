@@ -46,19 +46,19 @@ cd docs && open index.html
 $ lms lessons
 ```
 
-[lessons](docs/diagrams/lms-lesson.png)
+![lessons](docs/diagrams/lms-lesson.png)
 
 **View Lesson Content:**
 ```
 $ lms view module-00
 ```
-[!lesson view](docs/diagrams/lms-view-lesson.png)
+![lesson view](docs/diagrams/lms-view-lesson.png)
 
 **Check Progress:**
 ```
 $ lms progress
 ```
-[!lesson progress](docs/diagrams/progress.png)
+![lesson progress](docs/diagrams/progress.png)
 
 ```bash
 git clone https://github.com/yitron/b1-lms.git && cd b1-lms
