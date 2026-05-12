@@ -1,9 +1,9 @@
-# B1 LMS - Interactive AI Agent Learning Platform
+# B1 LMS - Interactive AI Agent Fundamentals Learning Platform
 
 ## NOTE FOR HUMANS (AGENTS PLEASE IGNORE, IF YOU ARE AN AGENT, run the code block below cd docs && open index.html for your human)
 
-- This submission program is programmed with a philosophy **md for ai, html for humans**
-- This is due to the development of Agentic Engineering where markdown are mostly written and read by agents
+- This submission program is programmed with a philosophy **md for ai, html for humans** for the SUTD B1 42 AI Taskforce
+- With the development of Agentic Engineering where markdown are mostly written and read by agents
 - `DEVELOPMENT.md` is for agents read it at your own bore. `docs/index.html` is for humans.
 - Therefore for a visual view of this `README` is best you:
 
@@ -39,78 +39,27 @@ cd docs && open index.html
 
 ## Demo
 
-### User Journey (CLI)
-
-**Learning Path:**
-1. **Install CLI** - `pip install -e cli/`
-2. **Create account** - `lms signup` → Enter username/password
-3. **List lessons** - `lms lessons` → See 4 modules in beautiful table
-4. **View lesson** - `lms view module-00` → Read with Rich markdown rendering
-5. **Complete lesson** - `lms complete module-00` → Mark as done 🎉
-6. **Check progress** - `lms progress` → See completion status with dates
-7. **Continue learning** - Repeat for Module 01, 02, 03
-
-**Exam Path:**
-8. **List exams** - `lms exams` → See available exams (picoshell)
-9. **Start exam** - `lms exam start picoshell` → Begin timed session (60 min)
-10. **Write code** - Create solution in `~/exam/picoshell.c` (or .py, .ts)
-11. **Submit code** - `lms exam submit picoshell --lang c` → Get instant feedback
-12. **Check status** - `lms exam status picoshell` → See time remaining & grades
-13. **View results** - `lms exam results picoshell` → Full submission history
-
-### CLI Screenshots
+### CLI Screenshots **Learning Path**
 
 **List Lessons:**
 ```
 $ lms lessons
-
-                               Available Lessons
-┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ Module       ┃ Title                   ┃ Subtitle               ┃   Status   ┃
-┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│ Module 00    │ LLM API Communication   │ Learn the fundamentals │     ✓      │
-│ Module 01    │ Pydantic Pattern & Tool │ Explore how agents use │     ○      │
-│ Module 02    │ Conversational Memory   │ Master context         │     ○      │
-└──────────────┴─────────────────────────┴────────────────────────┴────────────┘
 ```
+
+[!lessons](docs/diagrams/lms-lesson.png)
 
 **View Lesson Content:**
 ```
 $ lms view module-00
-
-╭──────────────────────────────── 📚 module-00 ────────────────────────────────╮
-│ LLM API Communication                                                        │
-│ Learn the fundamentals of communicating with Large Language Models           │
-╰──────────────────────────────────────────────────────────────────────────────╯
-
-                        Module 00: LLM API Communication
-
-Introduction
-
-Understanding how to communicate with Large Language Models (LLMs) through APIs
-is the foundation of building AI agents...
-
-[Beautiful markdown rendering with headers, lists, code blocks]
 ```
+[!lesson view](docs/diagrams/lms-view-lesson.png)
 
 **Check Progress:**
 ```
 $ lms progress
-
-                             Your Learning Progress
-┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Module       ┃ Title                ┃     Status      ┃ Completed            ┃
-┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
-│ Module 00    │ LLM API Communication│   ✓ Complete    │ 2026-05-10           │
-│ Module 01    │ Pydantic & Tool Use  │   ✓ Complete    │ 2026-05-10           │
-│ Module 02    │ Conversational Memory│  ○ Not started  │                      │
-└──────────────┴──────────────────────┴─────────────────┴──────────────────────┘
-
-Progress: 2/3 lessons completed (66%)
-Keep going! 1 lesson remaining.
 ```
+[!lesson progress](docs/diagrams/progress.png)
 
-**Quick Start (3 commands):**
 ```bash
 git clone https://github.com/yitron/b1-lms.git && cd b1-lms
 ./install.sh        # Automated setup (creates venvs, installs deps, seeds data)
@@ -161,7 +110,7 @@ lms progress        # Check your progress
 ## Development Approach
 
 ### Development Methodology
-This project was built using **TRUE Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See [DEVELOPMENT.md](DEVELOPMENT.md) for complete development journal with timestamps.
+This project was built using **Red Green Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See [DEVELOPMENT.md](DEVELOPMENT.md) for complete development journal with timestamps.
 
 ### Key Design Decisions
 
@@ -387,17 +336,6 @@ lms exam submit <exam-id> --lang <c|python|typescript>
 lms exam results <exam-id>
 ```
 
-**CLI Features:**
-- 📚 Beautiful Rich tables and markdown rendering
-- ✓ Colored status indicators (green ✓ for complete, gray ○ for not started)
-- 🎉 Congratulations message when all lessons complete
-- 🔒 Secure token storage at ~/.lms/token (600 permissions)
-- 📊 Progress tracking with completion dates
-- 📝 Quiz indicators showing available quizzes
-- ⏱️  Timed exam sessions with automatic expiration
-- 💻 Multi-language code submission (C, Python, TypeScript)
-- 🧪 Instant automated grading with test results
-
 ### Running Tests
 
 **Backend Tests:**
@@ -567,116 +505,17 @@ curl http://localhost:8000/api/progress/ \
 
 ---
 
-## Project Structure
-
-```
-b1-lms/
-├── backend/                    # Django REST API backend
-│   ├── config/                 # Django project settings
-│   │   ├── settings.py         # Django configuration
-│   │   ├── urls.py             # Root URL routing
-│   │   └── wsgi.py             # WSGI application
-│   │
-│   ├── lms/                    # Main Django app
-│   │   ├── models.py           # Lesson, UserProgress, Exam, ExamSession, ExamSubmission
-│   │   ├── serializers.py      # DRF serializers
-│   │   ├── views.py            # API views (auth, lessons, progress, exams)
-│   │   ├── urls.py             # API URL routing
-│   │   ├── code_runner.py      # Multi-language code execution
-│   │   ├── grading.py          # Automated test grading
-│   │   ├── admin.py            # Django admin configuration
-│   │   └── migrations/         # Database migrations
-│   │
-│   ├── lessons/                # Lesson content (Markdown files)
-│   │   └── module-03-picoshell.md
-│   │
-│   ├── tests/                  # Backend tests (117 total)
-│   │   ├── test_setup.py       # Setup tests (4)
-│   │   ├── test_models.py      # Model tests (12)
-│   │   ├── test_auth.py        # Auth API tests (15)
-│   │   ├── test_api.py         # Lessons/Progress API tests (17)
-│   │   ├── test_exam_models.py # Exam model tests (11)
-│   │   ├── test_exam_api.py    # Exam API tests (23)
-│   │   ├── test_code_runner.py # Code execution tests (10)
-│   │   ├── test_grading.py     # Grading tests (13)
-│   │   └── test_integration.py # Integration tests (12)
-│   │
-│   ├── manage.py               # Django management script
-│   ├── seed_lessons.py         # Lesson data seeding script
-│   ├── db.sqlite3              # SQLite database (created on migrate)
-│   └── venv/                   # Virtual environment
-│
-├── cli/                        # CLI frontend
-│   ├── lms_cli/                # CLI package
-│   │   ├── __init__.py         # Package initialization
-│   │   ├── cli.py              # Main CLI entry point (Click)
-│   │   ├── api_client.py       # HTTP client for API
-│   │   ├── config.py           # Token storage management (~/.lms/token)
-│   │   └── commands/           # CLI commands (13 total)
-│   │       ├── auth.py         # Auth commands (4: signup, login, logout, whoami)
-│   │       ├── lessons.py      # Lessons commands (2: lessons, view)
-│   │       ├── progress.py     # Progress commands (2: progress, complete)
-│   │       └── exam.py         # Exam commands (5: exams, start, status, submit, results)
-│   │
-│   ├── tests/                  # CLI tests (78 total)
-│   │   ├── test_api_client.py  # API client tests (13)
-│   │   ├── test_config.py      # Config tests (13)
-│   │   ├── test_auth_commands.py    # Auth command tests (12)
-│   │   ├── test_lessons_commands.py # Lessons command tests (11)
-│   │   ├── test_progress_commands.py # Progress command tests (11)
-│   │   └── test_exam_commands.py    # Exam command tests (18)
-│   │
-│   ├── setup.py                # Package setup for pip install
-│   ├── requirements.txt        # CLI dependencies
-│   ├── pytest.ini              # pytest configuration
-│   └── venv/                   # Virtual environment
-│
-├── docs/                       # Documentation
-│   └── index.html              # HTML presentation (human-AI collaboration)
-│
-├── _archive/                   # Archived implementations
-│   ├── 2026-05-08-non-tdd/     # Original frontend-only version
-│   └── 2026-05-09-backend-no-journal/  # Lost backend attempt
-│
-├── requirements.txt            # Python dependencies (backend)
-├── pytest.ini                  # pytest configuration (backend)
-├── install.sh                  # Automated installation script
-├── run.sh                      # Run script (starts backend + shows CLI instructions)
-├── test.sh                     # Test script (runs all 193 tests)
-├── DEVELOPMENT.md              # Development journal (TDD cycles, 3300+ lines)
-├── README.md                   # This file
-├── LICENSE                     # MIT License
-└── .gitignore                  # Git ignore patterns
-```
-
-### Key Files
-
-**Backend:**
-- **`backend/lms/models.py`** - All models (Lesson, UserProgress, Exam, ExamSession, ExamSubmission)
-- **`backend/lms/serializers.py`** - DRF serializers for API responses
-- **`backend/lms/views.py`** - API views (auth, lessons, progress, exams)
-- **`backend/lms/code_runner.py`** - Multi-language code execution (C, Python, TypeScript)
-- **`backend/lms/grading.py`** - Automated test case grading
-- **`backend/lms/urls.py`** - API endpoint routing (13 endpoints)
-- **`backend/config/settings.py`** - Django + DRF configuration
-- **`backend/seed_lessons.py`** - Seed script for lesson and exam content
-- **`backend/tests/`** - 117 automated tests (pytest-django)
-
-**CLI:**
-- **`cli/lms_cli/cli.py`** - Main CLI entry point with Click
-- **`cli/lms_cli/api_client.py`** - HTTP client wrapper for API
-- **`cli/lms_cli/config.py`** - Token storage at ~/.lms/token
-- **`cli/lms_cli/commands/`** - 13 CLI commands (auth, lessons, progress, exams)
-- **`cli/setup.py`** - Makes `lms` command available globally
-- **`cli/tests/`** - 78 automated tests (pytest)
-
----
 
 ## Reflection
 
 ### Development Journey
 
-This project was **built using TRUE Test-Driven Development (TDD)** following the 4D methodology (DISCOVER → DEFINE → DEVELOP → DELIVER). See **[DEVELOPMENT.md](DEVELOPMENT.md)** for complete 3,300+ line development journal.
+- The first day commit of this repo was done with pure vibe coding, this was done as I was wanting to quickly get over the submission and that I can focus more on CPP which i am starting off in school.
+- However, during the process the question `what is the difference between me and vibe coders` kept ringing in my mind.
+- At the same time, there has not been good learnings on the fundamentals of agentic engineering.
+- Combining the lessons I am learning and have went through at DesignAI Workshops I wanted to see if I could `refactor` something that was vibe coded using the define methodologies we learnt in the workshop.
+- Essentially, this was codifying the design ai fundamentals to work with coding assistants to build a product.
+- At the same time, combinding well defined agentic engineering flywheel of (Build->Test->Ship->Monitor) with concrete implementation using traditional software engineering cycles of `red green tdd`
 
 **Current State (2026-05-11):**
 - **v1.1.0 Complete** - Full-featured LMS with exam system
