@@ -46,7 +46,7 @@ cd docs && open index.html
 $ lms lessons
 ```
 
-[!lessons](docs/diagrams/lms-lesson.png)
+[lessons](docs/diagrams/lms-lesson.png)
 
 **View Lesson Content:**
 ```
