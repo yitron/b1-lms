@@ -513,7 +513,7 @@ curl http://localhost:8000/api/progress/ \
 - The first day commit of this repo was done with pure vibe coding, this was done as I was wanting to quickly get over the submission and that I can focus more on CPP which i am starting off in school.
 - However, during the process the question `what is the difference between me and vibe coders` kept ringing in my mind.
 - At the same time, there has not been good learnings on the fundamentals of agentic engineering.
-- Combining the lessons I am learning and have went through at DesignAI Workshops I wanted to see if I could `refactor` something that was vibe coded using the define methodologies we learnt in the workshop.
+- Combining the lessons I am learning and have went through at DesignAI Workshops I wanted to see if I could `refactor` something that was vibe coded using the DesignAI methodologies we learnt in the workshop.
 - Essentially, this was codifying the design ai fundamentals to work with coding assistants to build a product.
 - At the same time, combinding well defined agentic engineering flywheel of (Build->Test->Ship->Monitor) with concrete implementation using traditional software engineering cycles of `red green tdd`
 
