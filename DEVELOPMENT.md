@@ -5961,3 +5961,93 @@ lms signup
 
 ---
 
+## 2026-05-13 - API Client Error Message Improvements
+
+**User Issue:** "when i run lms signup it says signup failed. POST request failed with status 400"
+
+**Problem:**
+- CLI was showing generic error: "POST request failed with status 400: Unknown error"
+- Django REST Framework returns field-specific validation errors in format: `{"password": ["This password is too short..."]}`
+- API client was only looking for an 'error' key, not parsing DRF's validation error format
+- Users couldn't see why their signup/login was failing
+
+**Root Cause:**
+The `APIClient.post()` and `APIClient.get()` methods in `cli/lms_cli/api_client.py` were not handling Django REST Framework's standard validation error format, which returns errors as a dictionary of field names to error lists.
+
+**Implementation Timestamp:** 2026-05-13
+
+### Changes Made:
+
+**File Modified:** `cli/lms_cli/api_client.py`
+
+**1. Enhanced `post()` method error parsing:**
+```python
+# Before: Only checked for 'error' key
+error_msg = error_data.get('error', 'Unknown error')
+
+# After: Handles DRF field validation errors
+if isinstance(error_data, dict):
+    if 'error' in error_data:
+        error_msg = error_data['error']
+    else:
+        # Format DRF field errors
+        error_messages = []
+        for field, errors in error_data.items():
+            if isinstance(errors, list):
+                for error in errors:
+                    error_messages.append(f"{field}: {error}")
+            else:
+                error_messages.append(f"{field}: {errors}")
+        error_msg = "\n".join(error_messages)
+```
+
+**2. Enhanced `get()` method error parsing:**
+- Same improvement as `post()` method
+- Also checks for 'detail' key (common in DRF authentication errors)
+
+**Error Display Examples:**
+
+Before (generic):
+```
+✗ Signup failed: POST request failed with status 400: Unknown error
+```
+
+After (specific):
+```
+✗ Signup failed: POST request failed with status 400: password: This password is too short. It must contain at least 8 characters.
+```
+
+Or for multiple errors:
+```
+✗ Signup failed: POST request failed with status 400:
+username: This field is required.
+password: This password is too common.
+```
+
+**Benefits:**
+- ✅ Users see exactly why their signup/login failed
+- ✅ Validation errors are clear and actionable
+- ✅ Works with all Django REST Framework endpoints
+- ✅ Maintains backward compatibility with custom error formats
+
+**Testing:**
+```bash
+# Test with short password
+lms signup
+# Now shows: "password: This password is too short..."
+
+# Test with common password
+lms signup
+# Now shows: "password: This password is too common..."
+
+# Test with missing fields
+# Shows: "field_name: This field is required."
+```
+
+**Files Modified:**
+- `cli/lms_cli/api_client.py` - Enhanced error parsing in `get()` and `post()` methods
+
+**Timestamp:** 2026-05-13
+
+---
+
