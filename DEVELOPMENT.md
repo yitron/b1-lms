@@ -5852,3 +5852,112 @@ lms exam start picoshell
 
 ---
 
+## 2026-05-13 - Cross-Platform Script Improvements
+
+**User Issue:** "i am running cross platform, the install script runs python3 venv but other platforms may not have python-venv installed how can i fix this"
+
+**Additional Requirements:**
+- "i do not have sudo rights on some platforms, but the platforms have pip"
+- "ensurepip is not available, but i see /usr/bin/pip"
+- "for b1-lms, the user has to open another terminal and then source venv himself can we do it end to end for the user"
+
+**Problem Context:**
+- install.sh and run.sh were using `source venv/bin/activate` (macOS/Linux specific)
+- Python venv module not available on some Linux distributions without sudo
+- Users without sudo rights needed pip-based solution
+- ensurepip module missing on minimal Python installations
+- Windows paths differ (Scripts/ vs bin/)
+- run.sh required user to manually open new terminal and activate CLI venv
+
+**Implementation Timestamp:** 2026-05-13
+
+### Changes Made:
+
+**1. install.sh - Cross-Platform Virtual Environment Creation (Backend & CLI)**
+
+Both backend/ and cli/ venv creation now:
+- Added venv availability check with fallback to virtualenv
+- Handles missing ensurepip by creating venv without pip, then installing via get-pip.py
+- Uses curl or wget (whichever available) to download get-pip.py
+- Removed all `source venv/bin/activate` and `deactivate` calls
+- Added platform detection for venv executables (bin/ vs Scripts/)
+- Uses direct paths to executables: `venv/bin/python` or `venv/Scripts/python.exe`
+- Works without sudo (uses `pip install --user virtualenv` as fallback)
+
+**2. run.sh - End-to-End Automated Experience**
+
+Complete rewrite for seamless user experience:
+- **Starts backend in background** with output logged to backend/backend.log
+- **Saves backend PID** to .backend.pid for cleanup
+- **Waits for backend to be ready** (polls http://localhost:8000)
+- **Adds CLI to PATH** automatically (no need to cd to cli/)
+- **Drops into interactive shell** with lms command available
+- **Auto-cleanup on exit** - kills backend when user types 'exit'
+
+New workflow:
+```bash
+./run.sh
+# Backend starts in background
+# CLI immediately available in current shell
+lms signup
+lms lessons
+exit  # Automatically stops backend
+```
+
+Old workflow (eliminated):
+```bash
+./run.sh
+# Backend blocks terminal
+# User opens NEW terminal
+cd cli
+source venv/bin/activate
+lms signup
+# User manually kills backend in other terminal
+```
+
+**3. test.sh - Cross-Platform Test Execution**
+
+- Removed all `source venv/bin/activate` and `deactivate` calls
+- Added platform detection for pytest executables
+- Uses direct paths: `venv/bin/pytest` or `venv/Scripts/pytest.exe`
+- Relaxed venv module check (accepts virtualenv as valid)
+
+**Cross-Platform Support:**
+- ✅ Linux (with or without python3-venv package)
+- ✅ macOS
+- ✅ Windows (Git Bash/MSYS/WSL)
+- ✅ Platforms without sudo/admin rights
+- ✅ Minimal Python installations (no ensurepip)
+
+**User Experience Improvements:**
+- ✅ No manual terminal management (backend runs in background)
+- ✅ No cd to cli/ directory needed (PATH configured automatically)
+- ✅ No manual venv activation needed (direct paths used)
+- ✅ Automatic cleanup (backend stops on exit)
+- ✅ One command to run everything: `./run.sh`
+
+**Testing:**
+```bash
+# All platforms can now run:
+./install.sh  # Creates both venvs, installs deps, runs tests
+./run.sh      # Starts backend + CLI in single terminal
+./test.sh     # Runs all tests with platform detection
+```
+
+**Benefits:**
+- Works on any platform with Python and pip
+- No sudo required
+- Handles missing venv/ensurepip gracefully
+- Automatic fallback to virtualenv via pip
+- Direct executable paths more reliable than shell activation
+- Seamless end-to-end experience (no manual terminal juggling)
+
+**Files Modified:**
+- install.sh - Complete rewrite with platform detection for backend & CLI
+- run.sh - Complete rewrite with background backend and interactive CLI shell
+- test.sh - Added platform detection for pytest
+
+**Timestamp:** 2026-05-13
+
+---
+
