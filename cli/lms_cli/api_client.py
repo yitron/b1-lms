@@ -66,7 +66,26 @@ class APIClient:
                 # Try to get error message from response
                 try:
                     error_data = response.json()
-                    error_msg = error_data.get('error', 'Unknown error')
+
+                    # Handle DRF validation errors (field-specific errors)
+                    if isinstance(error_data, dict):
+                        # Check for 'error' key first (custom error format)
+                        if 'error' in error_data:
+                            error_msg = error_data['error']
+                        elif 'detail' in error_data:
+                            error_msg = error_data['detail']
+                        else:
+                            # Format DRF field errors
+                            error_messages = []
+                            for field, errors in error_data.items():
+                                if isinstance(errors, list):
+                                    for error in errors:
+                                        error_messages.append(f"{field}: {error}")
+                                else:
+                                    error_messages.append(f"{field}: {errors}")
+                            error_msg = "\n".join(error_messages) if error_messages else 'Unknown error'
+                    else:
+                        error_msg = str(error_data)
                 except (ValueError, KeyError):
                     error_msg = response.text or 'Unknown error'
 
@@ -100,7 +119,24 @@ class APIClient:
                 # Try to get error message from response
                 try:
                     error_data = response.json()
-                    error_msg = error_data.get('error', 'Unknown error')
+
+                    # Handle DRF validation errors (field-specific errors)
+                    if isinstance(error_data, dict):
+                        # Check for 'error' key first (custom error format)
+                        if 'error' in error_data:
+                            error_msg = error_data['error']
+                        else:
+                            # Format DRF field errors
+                            error_messages = []
+                            for field, errors in error_data.items():
+                                if isinstance(errors, list):
+                                    for error in errors:
+                                        error_messages.append(f"{field}: {error}")
+                                else:
+                                    error_messages.append(f"{field}: {errors}")
+                            error_msg = "\n".join(error_messages) if error_messages else 'Unknown error'
+                    else:
+                        error_msg = str(error_data)
                 except (ValueError, KeyError):
                     error_msg = response.text or 'Unknown error'
 
