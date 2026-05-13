@@ -34,7 +34,23 @@ echo "Starting backend server..."
 echo "-------------------------------------------"
 
 cd backend
-source venv/bin/activate
+
+# Detect platform and set paths to venv executables
+if [ -f "venv/bin/python" ]; then
+    # Linux/macOS
+    PYTHON="venv/bin/python"
+    CLI_ACTIVATE="source venv/bin/activate"
+    CLI_PATH="venv/bin/lms"
+elif [ -f "venv/Scripts/python.exe" ]; then
+    # Windows (Git Bash/MSYS)
+    PYTHON="venv/Scripts/python.exe"
+    CLI_ACTIVATE="source venv/Scripts/activate"
+    CLI_PATH="venv/Scripts/lms.exe"
+else
+    echo -e "${RED}✗${NC} Backend virtual environment not found"
+    echo "Run: ./install.sh first"
+    exit 1
+fi
 
 # Check if port 8000 is already in use
 if lsof -Pi :8000 -sTCP:LISTEN -t >/dev/null 2>&1; then
@@ -63,7 +79,7 @@ echo ""
 echo -e "${GREEN}To use the CLI, open a NEW terminal and run:${NC}"
 echo ""
 echo "  cd $(pwd | sed 's/\/backend$//')/cli"
-echo "  source venv/bin/activate"
+echo "  $CLI_ACTIVATE"
 echo "  lms signup    # Create an account"
 echo "  lms lessons   # List lessons"
 echo "  lms --help    # See all commands"
@@ -72,4 +88,4 @@ echo "===================================="
 echo ""
 
 # Start the server (this will block)
-python manage.py runserver 8000
+$PYTHON manage.py runserver 8000

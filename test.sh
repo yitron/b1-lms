@@ -49,12 +49,13 @@ else
     ERRORS=$((ERRORS + 1))
 fi
 
-# Test venv module
+# Test venv or virtualenv module
 if python3 -m venv --help &> /dev/null; then
     echo -e "${GREEN}✓${NC} venv module available"
+elif python3 -m virtualenv --help &> /dev/null || pip3 show virtualenv &> /dev/null; then
+    echo -e "${GREEN}✓${NC} virtualenv package available"
 else
-    echo -e "${RED}✗${NC} venv module not found"
-    ERRORS=$((ERRORS + 1))
+    echo -e "${YELLOW}○${NC} venv/virtualenv not found (will be installed via pip during setup)"
 fi
 
 echo ""
@@ -110,14 +111,25 @@ echo ""
 echo "Backend Tests (48 tests)..."
 echo "-------------------------------------------"
 cd backend
-source venv/bin/activate
-if pytest tests/ --tb=short -q; then
+
+# Detect platform and set paths to venv executables
+if [ -f "venv/bin/python" ]; then
+    # Linux/macOS
+    PYTEST="venv/bin/pytest"
+elif [ -f "venv/Scripts/python.exe" ]; then
+    # Windows (Git Bash/MSYS)
+    PYTEST="venv/Scripts/pytest.exe"
+else
+    echo -e "${RED}✗${NC} Backend virtual environment not found"
+    exit 1
+fi
+
+if $PYTEST tests/ --tb=short -q; then
     echo -e "${GREEN}✓ Backend: 48 tests passed${NC}"
 else
     echo -e "${RED}✗ Backend tests failed${NC}"
     ERRORS=$((ERRORS + 1))
 fi
-deactivate
 cd ..
 
 echo ""
@@ -126,14 +138,25 @@ echo ""
 echo "CLI Tests (60 tests)..."
 echo "-------------------------------------------"
 cd cli
-source venv/bin/activate
-if pytest tests/ --tb=short -q; then
+
+# Detect platform and set paths to venv executables
+if [ -f "venv/bin/python" ]; then
+    # Linux/macOS
+    PYTEST="venv/bin/pytest"
+elif [ -f "venv/Scripts/python.exe" ]; then
+    # Windows (Git Bash/MSYS)
+    PYTEST="venv/Scripts/pytest.exe"
+else
+    echo -e "${RED}✗${NC} CLI virtual environment not found"
+    exit 1
+fi
+
+if $PYTEST tests/ --tb=short -q; then
     echo -e "${GREEN}✓ CLI: 60 tests passed${NC}"
 else
     echo -e "${RED}✗ CLI tests failed${NC}"
     ERRORS=$((ERRORS + 1))
 fi
-deactivate
 cd ..
 
 # ============================================
